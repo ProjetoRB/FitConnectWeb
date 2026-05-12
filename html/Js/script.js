@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     sessionStorage.setItem('usuario', JSON.stringify(resultado));
 
-                    window.location.href = 'dashboard.html';
+                    window.location.href = 'dashboard-aluno.html';
                 } else {
                     alert(resultado.mensagem || 'Falha no login. Verifique suas credenciais.');
                 }
