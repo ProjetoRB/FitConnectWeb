@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minha Conta | FitConnect</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/perfil.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="logo">FitConnect</div>
+    <nav>
+      <a href="dashboard-aluno.html"><i class="fas fa-home"></i> Início</a>
+      <a href="minha-conta.html" class="active"><i class="fas fa-user"></i> Minha conta</a>
+      <a href="contato.html"><i class="fas fa-envelope"></i> Contato</a>
+      <a href="#" id="logoutBtnPerfil"><i class="fas fa-sign-out-alt"></i> Sair</a>
+    </nav>
+  </header>
+
+  <section class="page">
+    <div class="card perfil-card">
+      <h2><i class="fas fa-id-card"></i> Meus dados</h2>
+      <form id="formPerfil">
+        <label>Nome completo</label>
+        <input type="text" id="perfilNome" required>
+
+        <label>Email</label>
+        <input type="email" id="perfilEmail" required>
+
+        <label>CPF</label>
+        <input type="text" id="perfilCpf" readonly disabled>
+
+        <div class="two-inputs">
+          <div>
+            <label>Peso (kg)</label>
+            <input type="number" step="0.1" id="perfilPeso" required>
+          </div>
+          <div>
+            <label>Altura (m)</label>
+            <input type="number" step="0.01" id="perfilAltura" required>
+          </div>
+        </div>
+
+        <label>Sexo</label>
+        <select id="perfilSexo">
+          <option>Masculino</option>
+          <option>Feminino</option>
+        </select>
+
+        <label>Nova senha (deixe em branco para não alterar)</label>
+        <input type="password" id="perfilSenha" placeholder="••••••••">
+
+        <button type="submit" class="btn-primary">Atualizar cadastro</button>
+      </form>
+    </div>
+  </section>
+
+  <script src="Js/script.js"></script>
+  <script src="Js/perfil.js"></script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+.consultas-card { max-width: 800px; margin: 120px auto; }
+.lista-items { display: flex; flex-direction: column; gap: 15px; margin: 30px 0; }
+.consulta-card { background: #374151; padding: 18px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+.voltar { text-align: center; margin-top: 30px; }

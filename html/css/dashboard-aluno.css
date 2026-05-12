@@ -1,0 +1,33 @@
+.dashboard-grid {
+  max-width: 1400px;
+  margin: 100px auto 40px;
+  padding: 0 30px;
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 30px;
+}
+@media (max-width: 900px) {
+  .dashboard-grid { grid-template-columns: 1fr; }
+}
+.consultas-pendentes .card { background: #1f2937; padding: 25px; border-radius: 20px; }
+.lista-consultas { max-height: 320px; overflow-y: auto; margin: 15px 0; }
+.consulta-item { background: #374151; padding: 12px; border-radius: 12px; margin-bottom: 10px; }
+.consulta-item p { margin: 4px 0; font-size: 14px; }
+.button-group { display: flex; gap: 12px; margin-top: 15px; }
+.btn-outline { background: transparent; border: 1px solid #9ca3af; color: white; width: auto; padding: 0 15px; height: 42px; }
+.filtros { display: flex; gap: 15px; margin: 20px 0; flex-wrap: wrap; }
+.filtro-btn { background: #374151; width: auto; padding: 8px 20px; height: 42px; }
+.filtro-btn.active { background: #3b82f6; }
+.profissionais-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.card-profissional { background: #374151; border-radius: 16px; padding: 18px; transition: 0.2s; }
+.card-profissional h4 { font-size: 20px; margin-bottom: 8px; }
+.card-profissional p { font-size: 14px; color: #cbd5e1; }
+.horarios { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.horario-badge { background: #1f2937; padding: 4px 10px; border-radius: 40px; font-size: 12px; }
+.acoes { display: flex; gap: 12px; margin-top: 12px; }
+.acoes button { width: 100%; background: #2563eb; height: 38px; font-size: 13px; }
+.acoes button:first-child { background: #10b981; }
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.modal-card { max-width: 500px; width: 90%; background: #1f2937; padding: 30px; border-radius: 24px; position: relative; }
+.fechar-modal { position: absolute; right: 20px; top: 10px; font-size: 28px; cursor: pointer; }
+.hidden { display: none; }

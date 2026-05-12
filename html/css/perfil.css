@@ -1,0 +1,2 @@
+.perfil-card { max-width: 650px; margin: 120px auto; }
+.perfil-card input:disabled { background: #4b5563; color: #ccc; cursor: not-allowed; }

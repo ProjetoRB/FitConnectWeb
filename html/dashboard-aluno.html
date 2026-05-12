@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | FitConnect</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/dashboard-aluno.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="logo">FitConnect</div>
+    <nav>
+      <a href="dashboard-aluno.html" class="active"><i class="fas fa-home"></i> Início</a>
+      <a href="minha-conta.html"><i class="fas fa-user"></i> Minha conta</a>
+      <a href="contato.html"><i class="fas fa-envelope"></i> Contato</a>
+      <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Sair</a>
+    </nav>
+  </header>
+
+  <main class="dashboard-grid">
+    <!-- Coluna Esquerda: Consultas Pendentes -->
+    <aside class="consultas-pendentes">
+      <div class="card">
+        <h3><i class="fas fa-clock"></i> Consultas Pendentes</h3>
+        <div id="pendingList" class="lista-consultas">
+          <p class="placeholder">Carregando...</p>
+        </div>
+        <div class="button-group">
+          <button id="verMinhasConsultas" class="btn-outline">Ver minhas consultas</button>
+          <button id="verHistorico" class="btn-outline">Histórico de consultas</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Coluna Principal: Profissionais -->
+    <section class="profissionais-area">
+      <div class="card">
+        <h2><i class="fas fa-dumbbell"></i> Qual tipo de serviço você precisa?</h2>
+        <div class="filtros">
+          <button class="filtro-btn active" data-area="todos">Todos</button>
+          <button class="filtro-btn" data-area="Nutricionista">Nutricionista</button>
+          <button class="filtro-btn" data-area="Personal Trainer">Personal Trainer</button>
+          <button class="filtro-btn" data-area="Fisioterapeuta">Fisioterapeuta</button>
+        </div>
+        <div id="profissionaisContainer" class="profissionais-grid">
+          <p class="placeholder">Buscando profissionais...</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal de Agendamento -->
+  <div id="modalAgendar" class="modal hidden">
+    <div class="modal-card card">
+      <span class="fechar-modal">&times;</span>
+      <h3>Agendar consulta</h3>
+      <form id="formAgendamento">
+        <input type="hidden" id="profId">
+        <p><strong>Profissional:</strong> <span id="profNomeModal"></span></p>
+        <label>Data:</label>
+        <input type="date" id="dataConsulta" required>
+        <label>Horário disponível:</label>
+        <select id="horaConsulta" required></select>
+        <button type="submit" class="btn-primary">Confirmar agendamento</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="Js/script.js"></script>
+  <script src="Js/dashboard.js"></script>
+</body>
+</html>
