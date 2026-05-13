@@ -3,9 +3,35 @@
 // ========================
 document.addEventListener('DOMContentLoaded', function() {
 
-    // ------------------------
-    // DROPDOWN CRIAR CONTA
-    // ------------------------
+    const btnSenha = document.getElementById('btn-senha');
+    const inputSenha = document.getElementById('loginSenha');
+
+if (btnSenha && inputSenha) {
+    btnSenha.addEventListener('click', () => {
+        if (inputSenha.type === 'password') {
+            inputSenha.type = 'text';
+            btnSenha.classList.replace('bi-eye', 'bi-eye-slash');
+        } else {
+            inputSenha.type = 'password';
+            btnSenha.classList.replace('bi-eye-slash', 'bi-eye');
+        }
+    });
+}
+
+const signUpButton = document.getElementById('signUp');
+const signInButton = document.getElementById('signIn');
+const container = document.querySelector('.container');
+
+if (signUpButton && signInButton && container) {
+    signUpButton.addEventListener('click', () => {
+        container.classList.add('right-panel-active');
+    });
+
+    signInButton.addEventListener('click', () => {
+        container.classList.remove('right-panel-active');
+    });
+}
+    
     const btnConta = document.getElementById('btnConta');
     const dropdown = document.getElementById('dropdown');
 
