@@ -58,10 +58,15 @@ async function carregarProfissionais(filtro = 'todos') {
         });
 
         document.querySelectorAll('.agendar-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                alert('Agendamento ainda não implementado no backend.');
-            });
-        });
+
+    btn.addEventListener('click', () => {
+
+        abrirModalAgendamento(
+            btn.dataset.id,
+            btn.dataset.nome
+        );
+    });
+});
 
     } catch (err) {
         console.error(err);
@@ -75,20 +80,55 @@ async function carregarProfissionais(filtro = 'todos') {
 // ------------------------
 let profSelecionadoId = null;
 
-function abrirModalAgendamento(id, nome) {
+async function abrirModalAgendamento(id, nome) {
+
     profSelecionadoId = id;
 
     const profNomeModal = document.getElementById('profNomeModal');
     const profId = document.getElementById('profId');
     const modalAgendar = document.getElementById('modalAgendar');
+    const selectHorario = document.getElementById('horaConsulta');
 
     if (profNomeModal) profNomeModal.innerText = nome;
     if (profId) profId.value = id;
 
-    alert('Funcionalidade de agendamento ainda será criada no backend.');
+    try {
 
-    if (modalAgendar) {
+        const response = await fetch(
+            `${API}/agenda-profissional/profissional/${id}`
+        );
+
+        const horarios = await response.json();
+
+        selectHorario.innerHTML = '';
+
+        if (!horarios.length) {
+
+            selectHorario.innerHTML =
+                '<option>Nenhum horário disponível</option>';
+
+        } else {
+
+            horarios.forEach(horario => {
+
+                const option = document.createElement('option');
+
+                option.value = horario.id;
+
+                option.textContent =
+                    `${horario.dataDisponivel} - ${horario.horaDisponivel}`;
+
+                selectHorario.appendChild(option);
+            });
+        }
+
         modalAgendar.classList.remove('hidden');
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert('Erro ao carregar horários.');
     }
 }
 
@@ -97,9 +137,48 @@ function abrirModalAgendamento(id, nome) {
 // OBS: Ainda não funciona de verdade sem backend
 // ------------------------
 document.getElementById('formAgendamento')?.addEventListener('submit', async (e) => {
+
     e.preventDefault();
 
-    alert('Agendamento ainda não foi implementado no backend.');
+    const horarioId =
+        document.getElementById('horaConsulta').value;
+
+    const dados = {
+        alunoId: currentAlunoId,
+        horarioId: horarioId
+    };
+
+    try {
+
+        const response = await fetch(
+            `${API}/agenda-profissional/agendar`,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dados)
+            }
+        );
+
+        if (response.ok) {
+
+            alert('Agendamento realizado com sucesso!');
+
+            document.getElementById('modalAgendar')
+                .classList.add('hidden');
+
+        } else {
+
+            alert('Erro ao realizar agendamento.');
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert('Erro de conexão com o servidor.');
+    }
 });
 
 // ------------------------
