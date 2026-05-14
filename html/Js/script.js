@@ -55,13 +55,21 @@ if (signUpButton && signInButton && container) {
     const documentoLabel = document.getElementById('documentoLabel');
     const documentoInput = document.getElementById('documentoProfissional');
 
+    const documentos = {
+       Nutricionista: 'CRN',
+       Fisioterapeuta: 'CREFITO',
+       Personal: 'CREF'
+    };
+
     if (area && documentoLabel && documentoInput) {
         area.addEventListener('change', () => {
             const valor = area.value;
-            documentoLabel.innerText = valor || 'Documento Profissional';
-            documentoInput.placeholder = valor ? `Digite seu ${valor}` : 'Digite seu documento';
-        });
-    }
+            const documento = documentos[valor] || 'Documento Profissional';
+
+            documentoLabel.innerText = documento;
+            documentoInput.placeholder = `Digite seu ${documento}`;
+    });
+   }
 
     // ------------------------
     // FUNÇÃO VALIDADORA DE CPF
