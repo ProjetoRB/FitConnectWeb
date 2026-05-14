@@ -31,3 +31,93 @@
 .modal-card { max-width: 500px; width: 90%; background: #1f2937; padding: 30px; border-radius: 24px; position: relative; }
 .fechar-modal { position: absolute; right: 20px; top: 10px; font-size: 28px; cursor: pointer; }
 .hidden { display: none; }
+
+.modal-sair {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+
+  background: rgba(0, 0, 0, 0.6);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition: 0.3s;
+  z-index: 9999;
+}
+
+.modal-sair.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-sair-card {
+  width: 90%;
+  max-width: 400px;
+
+  background: #ffffff;
+  color: #111827;
+
+  border-radius: 20px;
+  padding: 35px;
+
+  text-align: center;
+
+  animation: modalEntrada 0.3s ease;
+}
+
+.modal-sair-card h2 {
+  margin-bottom: 10px;
+  font-size: 28px;
+}
+
+.modal-sair-card p {
+  color: #6b7280;
+  margin-bottom: 25px;
+}
+
+.modal-sair-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.modal-sair-buttons button {
+  flex: 1;
+  height: 45px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-cancelar {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.btn-confirmar-sair {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.btn-confirmar-sair:hover {
+  background: #dc2626;
+}
+
+@keyframes modalEntrada {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

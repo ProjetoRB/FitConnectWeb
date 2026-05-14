@@ -145,6 +145,37 @@ document.querySelectorAll('.filtro-btn').forEach(btn => {
     });
 });
 
+// =========================
+// MODAL DE SAIR
+// =========================
+
+const logoutBtn = document.getElementById('logoutBtn');
+const modalSair = document.getElementById('modalSair');
+const cancelarSair = document.getElementById('cancelarSair');
+const confirmarSair = document.getElementById('confirmarSair');
+
+if (logoutBtn && modalSair && cancelarSair && confirmarSair) {
+  logoutBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    modalSair.classList.add('active');
+  });
+
+  cancelarSair.addEventListener('click', function() {
+    modalSair.classList.remove('active');
+  });
+
+  confirmarSair.addEventListener('click', function() {
+    sessionStorage.removeItem('usuario');
+    window.location.href = 'login.html';
+  });
+
+  modalSair.addEventListener('click', function(e) {
+    if (e.target === modalSair) {
+      modalSair.classList.remove('active');
+    }
+  });
+}
+
 // ------------------------
 // INICIALIZAÇÃO
 // ------------------------
