@@ -3,8 +3,8 @@
 // ========================
 document.addEventListener('DOMContentLoaded', function() {
 
-    const btnSenha = document.getElementById('btn-senha');
-    const inputSenha = document.getElementById('loginSenha');
+const btnSenha = document.getElementById('btn-senha');
+const inputSenha = document.getElementById('loginSenha');
 
 if (btnSenha && inputSenha) {
     btnSenha.addEventListener('click', () => {
@@ -14,6 +14,21 @@ if (btnSenha && inputSenha) {
         } else {
             inputSenha.type = 'password';
             btnSenha.classList.replace('bi-eye-slash', 'bi-eye');
+        }
+    });
+}
+
+const btnSenhaCadastro = document.getElementById('btn-senha-cadastro');
+const inputSenhaCadastro = document.getElementById('senha');
+
+if (btnSenhaCadastro && inputSenhaCadastro) {
+    btnSenhaCadastro.addEventListener('click', () => {
+        if (inputSenhaCadastro.type === 'password') {
+            inputSenhaCadastro.type = 'text';
+            btnSenhaCadastro.classList.replace('bi-eye', 'bi-eye-slash');
+        } else {
+            inputSenhaCadastro.type = 'password';
+            btnSenhaCadastro.classList.replace('bi-eye-slash', 'bi-eye');
         }
     });
 }
