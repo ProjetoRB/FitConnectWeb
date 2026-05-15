@@ -162,11 +162,13 @@ document.getElementById('formAgendamento')?.addEventListener('submit', async (e)
         );
 
         if (response.ok) {
-
             alert('Agendamento realizado com sucesso!');
 
             document.getElementById('modalAgendar')
-                .classList.add('hidden');
+            .classList.add('hidden');
+
+            carregarConsultasPendentes();
+            carregarProfissionais();
 
         } else {
 
@@ -190,7 +192,67 @@ async function carregarConsultasPendentes() {
 
     if (!div) return;
 
-    div.innerHTML = '<p class="placeholder">Consultas ainda não implementadas no backend.</p>';
+    try {
+        const response = await fetch(`${API}/agenda-profissional/aluno/${currentAlunoId}`);
+
+        const consultas = await response.json();
+
+        const consultasAtivas = consultas.filter(c =>
+            c.statusHorario === 'agendado'
+        );
+
+        if (!consultasAtivas.length) {
+            div.innerHTML = '<p class="placeholder">Nenhuma consulta pendente.</p>';
+            return;
+        }
+
+        div.innerHTML = consultasAtivas.map(c => `
+            <div class="consulta-item">
+                <p><strong>Data:</strong> ${c.dataDisponivel}</p>
+                <p><strong>Horário:</strong> ${c.horaDisponivel}</p>
+                <p><strong>Status:</strong> ${c.statusHorario}</p>
+
+                <button onclick="cancelarConsulta(${c.id})" class="btn-cancelar-consulta">
+                    Cancelar consulta
+                </button>
+            </div>
+        `).join('');
+
+    } catch (error) {
+        console.error(error);
+        div.innerHTML = '<p class="placeholder">Erro ao carregar consultas.</p>';
+    }
+}
+
+async function cancelarConsulta(horarioId) {
+    const confirmar = confirm('Tem certeza que deseja cancelar esta consulta?');
+
+    if (!confirmar) return;
+
+    try {
+        const response = await fetch(`${API}/agenda-profissional/status`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                horarioId: horarioId,
+                status: 'cancelado_aluno'
+            })
+        });
+
+        if (response.ok) {
+            alert('Consulta cancelada com sucesso.');
+            carregarConsultasPendentes();
+            carregarProfissionais();
+        } else {
+            alert('Erro ao cancelar consulta.');
+        }
+
+    } catch (error) {
+        console.error(error);
+        alert('Erro de conexão com o servidor.');
+    }
 }
 
 // ------------------------
