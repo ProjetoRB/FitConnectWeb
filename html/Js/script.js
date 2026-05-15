@@ -73,7 +73,7 @@ if (signUpButton && signInButton && container) {
     const documentos = {
        Nutricionista: 'CRN',
        Fisioterapeuta: 'CREFITO',
-       Personal: 'CREF'
+       "Personal Trainer": 'CREF'
     };
 
     if (area && documentoLabel && documentoInput) {
@@ -288,7 +288,12 @@ if (signUpButton && signInButton && container) {
 
                     sessionStorage.setItem('usuario', JSON.stringify(resultado));
 
-                    window.location.href = 'dashboard-aluno.html';
+                    if (resultado.tipo === 'Aluno') {
+                        window.location.href = 'dashboard-aluno.html';
+                    } else if (resultado.tipo === 'Profissional') {
+                        window.location.href = 'dashboard-profissional.html';
+                    }
+
                 } else {
                     alert(resultado.mensagem || 'Falha no login. Verifique suas credenciais.');
                 }

@@ -2,28 +2,57 @@
 // FUNÇÕES QUE VIRÃO DA API/BANCO DE DADOS
 // ============================================
 
+const API = 'http://localhost:8080';
+
+const usuarioLogado = JSON.parse(sessionStorage.getItem('usuario'));
+
+if (!usuarioLogado || usuarioLogado.tipo !== 'Profissional') {
+  window.location.href = 'login.html';
+}
+
+const profissionalId = usuarioLogado.id;
+
+async function buscarAlunoPorId(alunoId) {
+  try {
+    const response = await fetch(`${API}/alunos/${alunoId}`);
+
+    if (!response.ok) {
+      return null;
+    }
+
+    return await response.json();
+
+    } catch (error) {
+      console.error("Erro ao buscar aluno:", error);
+      return null;
+    }
+  }
+
 // Buscar dados do profissional logado
 async function buscarDadosProfissional() {
-  // TODO: Conectar com sua API
-  // const response = await fetch('/api/profissional/dados');
-  // const data = await response.json();
-  // return data;
-  
-  // Aguardando implementação da API
-  console.log("Aguardando conexão com a API...");
-  return null;
+  return usuarioLogado;
 }
 
 // Buscar agendamentos do profissional
 async function buscarAgendamentos() {
-  // TODO: Conectar com sua API
-  // const response = await fetch('/api/profissional/agendamentos');
-  // const agendamentos = await response.json();
-  // return agendamentos;
-  
-  // Aguardando implementação da API
-  console.log("Aguardando conexão com a API...");
-  return [];
+  const response = await fetch(
+    `${API}/agenda-profissional/profissional/${profissionalId}/todos`
+  );
+
+  const agendamentos = await response.json();
+
+  const agendados = agendamentos.filter(ag =>
+    ag.statusHorario === 'agendado'
+  );
+
+  for (let ag of agendados) {
+    const aluno = await buscarAlunoPorId(ag.alunoId);
+
+    ag.alunoNome = aluno?.nomeCompleto || `Aluno ${ag.alunoId}`;
+    ag.alunoEmail = aluno?.email || '';
+  }
+
+  return agendados;
 }
 
 // ============================================
@@ -32,47 +61,40 @@ async function buscarAgendamentos() {
 
 // Agrupar agendamentos por aluno
 function agruparPorAluno(agendamentos) {
+
   const alunosMap = new Map();
-  
+
   agendamentos.forEach(ag => {
-    if (!alunosMap.has(ag.aluno_id)) {
-      alunosMap.set(ag.aluno_id, {
-        id: ag.aluno_id,
-        nome: ag.aluno_nome,
-        email: ag.aluno_email,
-        foto: ag.aluno_foto || null,
-        totalAgendamentos: 0,
-        proximoAgendamento: null
+
+    if (!alunosMap.has(ag.alunoId)) {
+
+      alunosMap.set(ag.alunoId, {
+
+        id: ag.alunoId,
+
+        nome: ag.alunoNome || `Aluno ${ag.alunoId}`,
+
+        email: ag.alunoEmail || '',
+
+        totalAgendamentos: 1,
+
+        proximoAgendamento: {
+
+          data: ag.dataDisponivel,
+
+          hora: ag.horaDisponivel
+        }
       });
-    }
-    
-    const aluno = alunosMap.get(ag.aluno_id);
-    aluno.totalAgendamentos++;
-    
-    // Verificar próximo agendamento
-    const dataAgenda = new Date(ag.data + "T" + ag.hora);
-    const hoje = new Date();
-    
-    if (!aluno.proximoAgendamento || dataAgenda < aluno.proximoAgendamento.dataObj) {
-      if (dataAgenda >= hoje) {
-        aluno.proximoAgendamento = {
-          id: ag.id,
-          data: ag.data,
-          hora: ag.hora,
-          tipo: ag.tipo,
-          status: ag.status,
-          dataObj: dataAgenda
-        };
-      }
+
+    } else {
+
+      const aluno = alunosMap.get(ag.alunoId);
+
+      aluno.totalAgendamentos++;
     }
   });
-  
-  // Ordenar por próximo agendamento
-  return Array.from(alunosMap.values()).sort((a, b) => {
-    if (!a.proximoAgendamento) return 1;
-    if (!b.proximoAgendamento) return -1;
-    return a.proximoAgendamento.dataObj - b.proximoAgendamento.dataObj;
-  });
+
+  return Array.from(alunosMap.values());
 }
 
 // Formatar data para exibição
@@ -112,7 +134,6 @@ function renderizarAlunos(agendamentos) {
   const totalAgendamentos = agendamentos.length;
   const alunosUnicos = alunos.length;
   
-  // Atualizar stats
   document.getElementById("totalAgendamentos").textContent = totalAgendamentos;
   document.getElementById("alunosUnicos").textContent = alunosUnicos;
   
@@ -122,7 +143,6 @@ function renderizarAlunos(agendamentos) {
     const card = document.createElement("div");
     card.className = "aluno-card";
     
-    // Info do aluno
     const infoDiv = document.createElement("div");
     infoDiv.className = "aluno-info";
     
@@ -135,25 +155,22 @@ function renderizarAlunos(agendamentos) {
     infoDiv.appendChild(nomeStrong);
     infoDiv.appendChild(emailSpan);
     
-    // Próximo horário
     const horarioDiv = document.createElement("div");
     
     if (aluno.proximoAgendamento) {
       const prox = aluno.proximoAgendamento;
       const dataTexto = formatarData(prox.data, prox.hora);
       horarioDiv.innerHTML = `📅 ${dataTexto}`;
-      horarioDiv.className = `proximo-horario ${prox.tipo}`;
+      horarioDiv.className = `proximo-horario`;
     } else {
       horarioDiv.innerHTML = `📅 Sem agendamentos futuros`;
       horarioDiv.className = `proximo-horario`;
     }
     
-    // Botão gerenciar horários
     const btn = document.createElement("button");
     btn.textContent = "⏰ Gerenciar horários";
     btn.className = "horario-btn";
     btn.onclick = () => {
-      // Redirecionar para a tela de agenda profissional
       window.location.href = "agenda-profissional.html";
     };
     
@@ -213,3 +230,30 @@ document.getElementById("navAgenda")?.addEventListener("click", (e) => {
 // ============================================
 
 carregarDados();
+
+const logoutBtn = document.getElementById('logoutBtn');
+const modalSair = document.getElementById('modalSair');
+const cancelarSair = document.getElementById('cancelarSair');
+const confirmarSair = document.getElementById('confirmarSair');
+
+if (logoutBtn && modalSair && cancelarSair && confirmarSair) {
+  logoutBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    modalSair.classList.add('active');
+  });
+
+  cancelarSair.addEventListener('click', function() {
+    modalSair.classList.remove('active');
+  });
+
+  confirmarSair.addEventListener('click', function() {
+    sessionStorage.removeItem('usuario');
+    window.location.href = 'login.html';
+  });
+
+  modalSair.addEventListener('click', function(e) {
+    if (e.target === modalSair) {
+      modalSair.classList.remove('active');
+    }
+  });
+}

@@ -98,7 +98,21 @@ async function abrirModalAgendamento(id, nome, area) {
             `${API}/agenda-profissional/profissional/${id}`
         );
 
-        const horarios = await response.json();
+        let horarios = await response.json();
+
+        const agora = new Date();
+
+        horarios = horarios.filter(horario => {
+            const dataHora = new Date(`${horario.dataDisponivel}T${horario.horaDisponivel}`);
+            return dataHora > agora;
+        });
+
+        horarios.sort((a, b) => {
+            const dataHoraA = new Date(`${a.dataDisponivel}T${a.horaDisponivel}`);
+            const dataHoraB = new Date(`${b.dataDisponivel}T${b.horaDisponivel}`);
+
+            return dataHoraA - dataHoraB;
+        });
 
         selectHorario.innerHTML = '';
 
@@ -117,9 +131,27 @@ async function abrirModalAgendamento(id, nome, area) {
 
                 const dataFormatada = `${partesData[2]}/${partesData[1]}/${partesData[0]}`;
 
+                const dataObj = new Date(
+                    Number(partesData[0]),
+                    Number(partesData[1]) - 1,
+                    Number(partesData[2])
+                );
+
+                const diasSemana = [
+                    'Domingo',
+                    'Segunda-feira',
+                    'Terça-feira',
+                    'Quarta-feira',
+                    'Quinta-feira',
+                    'Sexta-feira',
+                    'Sábado'
+                ];
+
+                const diaSemana = diasSemana[dataObj.getDay()];
+
                 const hora = horario.horaDisponivel.substring(0, 5);
 
-                option.textContent = `${dataFormatada} às ${hora}`;
+                option.textContent = `${diaSemana} • ${dataFormatada} às ${hora}`;
 
                 selectHorario.appendChild(option);
             });

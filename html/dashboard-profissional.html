@@ -43,7 +43,7 @@
       </div>
       <div class="menu">
         <a href="#">Perfil</a>
-        <a href="#">Sair</a>
+        <a href="#" id="logoutBtn">Sair</a>
       </div>
     </header>
 
@@ -60,7 +60,7 @@
         <div class="stat-icon">👥</div>
         <div class="stat-info">
           <h3 id="alunosUnicos">0</h3>
-          <p>Alunos atendidos</p>
+          <p>Quantidade de alunos</p>
         </div>
       </div>
     </section>
@@ -76,6 +76,19 @@
   </main>
 
   <div id="toastMsg" class="toast-msg">✓ Ação realizada</div>
+
+  <div id="modalSair" class="modal-sair">
+  <div class="modal-sair-card">
+    <h2>Deseja sair?</h2>
+
+    <p>Você será desconectado da sua conta.</p>
+
+    <div class="modal-sair-buttons">
+      <button id="cancelarSair" class="btn-cancelar">Cancelar</button>
+      <button id="confirmarSair" class="btn-confirmar-sair">Sair</button>
+    </div>
+  </div>
+  </div>
 
   <script src="Js/dashboard-profissional.js"></script>
 </body>

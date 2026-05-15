@@ -1,3 +1,13 @@
+const API = 'http://localhost:8080';
+
+const usuarioLogado = JSON.parse(sessionStorage.getItem('usuario'));
+
+if (!usuarioLogado || usuarioLogado.tipo !== 'Profissional') {
+  window.location.href = 'login.html';
+}
+
+const profissionalId = usuarioLogado.id;
+
 // Dias da semana completos
 const WEEK_DAYS = [
   { name: "Segunda-feira", key: "monday" },
@@ -260,21 +270,84 @@ function renderSchedule() {
   }
 }
 
+function getDateForWeekDay(dayKey) {
+  const hoje = new Date();
+
+  const mapaDias = {
+    sunday: 0,
+    monday: 1,
+    tuesday: 2,
+    wednesday: 3,
+    thursday: 4,
+    friday: 5,
+    saturday: 6
+  };
+
+  const diaAlvo = mapaDias[dayKey];
+  const diaAtual = hoje.getDay();
+
+  let diferenca = diaAlvo - diaAtual;
+
+  if (diferenca <= 0) {
+    diferenca += 7;
+  }
+
+  const dataFinal = new Date(hoje);
+  dataFinal.setDate(hoje.getDate() + diferenca);
+
+  const ano = dataFinal.getFullYear();
+  const mes = String(dataFinal.getMonth() + 1).padStart(2, '0');
+  const dia = String(dataFinal.getDate()).padStart(2, '0');
+
+  return `${ano}-${mes}-${dia}`;
+}
+
 // Salvar agenda no localStorage
-function saveAgenda() {
+async function saveAgenda() {
+
+  await fetch(`${API}/agenda-profissional/profissional/${profissionalId}`, {
+  method: 'DELETE'
+  });
+
   let totalSlots = 0;
   let activeDays = 0;
-  
+
   for (let day of WEEK_DAYS) {
     const d = currentSchedule[day.key];
-    if (d.enabled) {
-      activeDays++;
-      totalSlots += d.slots.filter(s => s.active).length;
+
+    if (!d.enabled) continue;
+
+    activeDays++;
+
+    for (let slot of d.slots) {
+      if (!slot.active) continue;
+
+      totalSlots++;
+
+      const dados = {
+        profissionalId: profissionalId,
+        dataDisponivel: getDateForWeekDay(day.key),
+        horaDisponivel: `${slot.time}:00`,
+        descricao: `Horário disponível - ${d.name}`
+      };
+
+      await fetch(`${API}/agenda-profissional`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dados)
+      });
     }
   }
-  
+
   localStorage.setItem("fitconnect_agenda", JSON.stringify(currentSchedule));
-  showNotification(`✓ Agenda salva! ${totalSlots} horários disponíveis em ${activeDays} dias`);
+
+  showNotification(`✓ Agenda salva! ${totalSlots} horários enviados para o banco`);
+
+  setTimeout(() => {
+    window.location.href = "dashboard-profissional.html";
+  }, 1500);
 }
 
 // Carregar agenda salva
