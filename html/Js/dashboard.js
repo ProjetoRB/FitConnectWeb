@@ -44,7 +44,7 @@ async function carregarProfissionais(filtro = 'todos') {
                         💬 Conversar
                     </button>
 
-                    <button class="agendar-btn" data-id="${prof.id}" data-nome="${prof.nomeCompleto}">
+                    <button class="agendar-btn" data-id="${prof.id}" data-nome="${prof.nomeCompleto}" data-area="${prof.areaProfissional}">
                         📅 Agendar
                     </button>
                 </div>
@@ -63,7 +63,8 @@ async function carregarProfissionais(filtro = 'todos') {
 
         abrirModalAgendamento(
             btn.dataset.id,
-            btn.dataset.nome
+            btn.dataset.nome,
+            btn.dataset.area
         );
     });
 });
@@ -80,10 +81,9 @@ async function carregarProfissionais(filtro = 'todos') {
 // ------------------------
 let profSelecionadoId = null;
 
-async function abrirModalAgendamento(id, nome) {
-
+async function abrirModalAgendamento(id, nome, area) {
+    document.getElementById('profAreaModal').innerText = area;
     profSelecionadoId = id;
-
     const profNomeModal = document.getElementById('profNomeModal');
     const profId = document.getElementById('profId');
     const modalAgendar = document.getElementById('modalAgendar');
@@ -103,9 +103,7 @@ async function abrirModalAgendamento(id, nome) {
         selectHorario.innerHTML = '';
 
         if (!horarios.length) {
-
-            selectHorario.innerHTML =
-                '<option>Nenhum horário disponível</option>';
+            selectHorario.innerHTML = '<option>Nenhum horário disponível</option>';
 
         } else {
 
@@ -115,8 +113,13 @@ async function abrirModalAgendamento(id, nome) {
 
                 option.value = horario.id;
 
-                option.textContent =
-                    `${horario.dataDisponivel} - ${horario.horaDisponivel}`;
+                const partesData = horario.dataDisponivel.split("-");
+
+                const dataFormatada = `${partesData[2]}/${partesData[1]}/${partesData[0]}`;
+
+                const hora = horario.horaDisponivel.substring(0, 5);
+
+                option.textContent = `${dataFormatada} às ${hora}`;
 
                 selectHorario.appendChild(option);
             });
