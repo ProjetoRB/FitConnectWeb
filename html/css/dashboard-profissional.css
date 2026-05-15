@@ -1,0 +1,300 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #0f172a;
+  min-height: 100vh;
+  color: white;
+  display: flex;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 260px;
+  padding: 30px;
+  background: #111827;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.logo {
+  color: #22c55e;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 50px;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+nav a {
+  color: #d1d5db;
+  text-decoration: none;
+  padding: 14px;
+  border-radius: 14px;
+  transition: 0.25s;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+nav a:hover,
+nav .active {
+  background: #22c55e;
+  color: #052e16;
+  font-weight: 700;
+}
+
+.support-card {
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 20px;
+  margin-top: 40px;
+}
+
+.support-card h3 {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.support-card p {
+  color: #94a3b8;
+  margin-bottom: 18px;
+  font-size: 13px;
+}
+
+.support-card button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: #22c55e;
+  color: #052e16;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.support-card button:hover {
+  transform: translateY(-2px);
+}
+
+/* MAIN */
+.main {
+  flex: 1;
+  padding: 30px 40px;
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+/* TOPBAR */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.topbar h2 {
+  font-size: 28px;
+}
+
+.topbar p {
+  color: #94a3b8;
+  margin-top: 6px;
+}
+
+.menu {
+  display: flex;
+  gap: 25px;
+}
+
+.menu a {
+  color: #cbd5e1;
+  text-decoration: none;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.menu a:hover {
+  color: #22c55e;
+}
+
+/* STATS CARDS */
+.stats-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 35px;
+}
+
+.stat-card {
+  background: #111827;
+  padding: 20px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.stat-icon {
+  font-size: 36px;
+}
+
+.stat-info h3 {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.stat-info p {
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+/* ALUNOS SECTION */
+.alunos-section {
+  background: #111827;
+  border-radius: 24px;
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.alunos-section h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.alunos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #94a3b8;
+}
+
+.aluno-card {
+  background: #1e293b;
+  padding: 16px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.aluno-info strong {
+  display: block;
+  font-size: 16px;
+}
+
+.aluno-info span {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.proximo-horario {
+  background: #0f172a;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.proximo-horario.online {
+  color: #60a5fa;
+}
+
+.proximo-horario.presencial {
+  color: #22c55e;
+}
+
+.horario-btn {
+  background: #22c55e;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+  color: #052e16;
+}
+
+.horario-btn:hover {
+  transform: translateY(-2px);
+  background: #1e9f4a;
+}
+
+/* TOAST */
+.toast-msg {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #22c55e;
+  color: black;
+  padding: 12px 24px;
+  border-radius: 40px;
+  font-weight: 600;
+  font-size: 13px;
+  z-index: 1000;
+  opacity: 0;
+  transition: 0.25s;
+  pointer-events: none;
+}
+
+.toast-msg.show {
+  opacity: 1;
+}
+
+/* RESPONSIVO */
+@media (max-width: 1100px) {
+  body {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  
+  .main {
+    padding: 20px;
+  }
+  
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 700px) {
+  .stats-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .aluno-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .horario-btn {
+    width: 100%;
+  }
+}

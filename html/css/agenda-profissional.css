@@ -1,0 +1,269 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.82)), url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2070') center/cover no-repeat;
+  min-height: 100vh;
+  color: white;
+}
+
+.container {
+  max-width: 1400px;
+  margin: auto;
+  padding: 40px;
+}
+
+/* HEADER */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+  gap: 20px;
+}
+
+.topbar h1 {
+  font-size: 42px;
+  margin-bottom: 8px;
+}
+
+.topbar p {
+  color: #9ca3af;
+}
+
+.save-btn {
+  border: none;
+  background: #22c55e;
+  color: black;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 14px;
+}
+
+.save-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* CONFIG DO DIA */
+.day-configs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.config-item {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 8px 12px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.config-item label {
+  font-size: 11px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.config-item select {
+  background: #1f2937;
+  border: none;
+  border-radius: 8px;
+  padding: 5px 10px;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* AGENDA */
+.schedule {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+}
+
+.day-card {
+  background: rgba(17, 24, 39, 0.92);
+  padding: 20px;
+  border-radius: 24px;
+  transition: 0.3s;
+}
+
+.day-card.disabled {
+  opacity: 0.5;
+}
+
+.day-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.day-top h3 {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.status-text {
+  color: #22c55e;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* HORÁRIOS - IGUAL AO PRIMEIRO: FLEX WRAP, BOTÕES PEQUENOS */
+.hours {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.hour {
+  border: none;
+  background: #1f2937;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.hour:hover:not(.inactive) {
+  transform: translateY(-2px);
+  background: #2d3a4e;
+}
+
+.hour.active {
+  background: #22c55e;
+  color: black;
+  font-weight: 700;
+}
+
+.hour.inactive {
+  background: #374151;
+  color: #6b7280;
+  text-decoration: line-through;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* SWITCH - IGUAL AO PRIMEIRO */
+.switch {
+  position: relative;
+  width: 48px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background: #374151;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  left: 3px;
+  bottom: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.switch input:checked + .slider {
+  background: #22c55e;
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(24px);
+}
+
+/* RESET BUTTON */
+.reset-btn {
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #22c55e;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 11px;
+  cursor: pointer;
+  margin-top: 15px;
+  width: 100%;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.reset-btn:hover:not(:disabled) {
+  background: rgba(34, 197, 94, 0.3);
+}
+
+/* TOAST */
+.toast-msg {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #22c55e;
+  color: black;
+  padding: 12px 24px;
+  border-radius: 40px;
+  font-weight: 600;
+  font-size: 13px;
+  z-index: 1000;
+  transition: 0.3s;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.toast-msg.show {
+  opacity: 1;
+}
+
+/* RESPONSIVO */
+@media (max-width: 900px) {
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .topbar h1 {
+    font-size: 32px;
+  }
+  
+  .container {
+    padding: 20px;
+  }
+  
+  .schedule {
+    grid-template-columns: 1fr;
+  }
+  
+  .day-configs {
+    flex-direction: column;
+  }
+}

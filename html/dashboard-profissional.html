@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FitConnect - Meus Alunos</title>
+  <link rel="stylesheet" href="css/dashboard-profissional.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div>
+      <h1 class="logo">FitConnect</h1>
+      <nav>
+        <a href="#" class="active" id="navAlunos">
+          👥 Meus Alunos
+        </a>
+        <a href="#" id="navAgenda">
+          📅 Minha Agenda
+        </a>
+        <a href="#">
+          ⚙️ Configurações
+        </a>
+      </nav>
+    </div>
+    <div class="support-card">
+      <h3>Precisa de ajuda?</h3>
+      <p>Suporte disponível 24h para profissionais.</p>
+      <button>Suporte</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <!-- TOPO -->
+    <header class="topbar">
+      <div>
+        <h2 id="profissionalNome">Olá, Profissional 👨‍🏫</h2>
+        <p>Gerencie seus alunos e horários</p>
+      </div>
+      <div class="menu">
+        <a href="#">Perfil</a>
+        <a href="#">Sair</a>
+      </div>
+    </header>
+
+    <!-- STATS -->
+    <section class="stats-cards">
+      <div class="stat-card">
+        <div class="stat-icon">📅</div>
+        <div class="stat-info">
+          <h3 id="totalAgendamentos">0</h3>
+          <p>Total de agendamentos</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-info">
+          <h3 id="alunosUnicos">0</h3>
+          <p>Alunos atendidos</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- LISTA DE ALUNOS COM AGENDAMENTOS -->
+    <section class="alunos-section">
+      <h2>📋 Alunos com agendamentos</h2>
+      <div class="alunos-list" id="alunosList">
+        <!-- Dados preenchidos dinamicamente -->
+      </div>
+    </section>
+
+  </main>
+
+  <div id="toastMsg" class="toast-msg">✓ Ação realizada</div>
+
+  <script src="Js/dashboard-profissional.js"></script>
+</body>
+</html>
