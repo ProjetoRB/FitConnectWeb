@@ -1,52 +1,64 @@
-// ========================
-// INICIALIZAÇÃO APÓS DOM CARREGADO
-// ========================
+/*=============================================================================================
+INICIALIZAÇÃO APÓS DOM CARREGADO
+=============================================================================================*/
 document.addEventListener('DOMContentLoaded', function() {
 
-const btnSenha = document.getElementById('btn-senha');
-const inputSenha = document.getElementById('loginSenha');
+    /*=============================================================================================
+    MOSTRAR / OCULTAR SENHA LOGIN
+    =============================================================================================*/
+    const btnSenha = document.getElementById('btn-senha');
+    const inputSenha = document.getElementById('loginSenha');
 
-if (btnSenha && inputSenha) {
-    btnSenha.addEventListener('click', () => {
-        if (inputSenha.type === 'password') {
-            inputSenha.type = 'text';
-            btnSenha.classList.replace('bi-eye', 'bi-eye-slash');
-        } else {
-            inputSenha.type = 'password';
-            btnSenha.classList.replace('bi-eye-slash', 'bi-eye');
-        }
-    });
-}
+    if (btnSenha && inputSenha) {
+        btnSenha.addEventListener('click', () => {
+            if (inputSenha.type === 'password') {
+                inputSenha.type = 'text';
+                btnSenha.classList.replace('bi-eye', 'bi-eye-slash');
+            } else {
+                inputSenha.type = 'password';
+                btnSenha.classList.replace('bi-eye-slash', 'bi-eye');
+            }
+        });
+    }
 
-const btnSenhaCadastro = document.getElementById('btn-senha-cadastro');
-const inputSenhaCadastro = document.getElementById('senha');
+    /*=============================================================================================
+    MOSTRAR / OCULTAR SENHA CADASTRO
+    =============================================================================================*/
+    const btnSenhaCadastro = document.getElementById('btn-senha-cadastro');
+    const inputSenhaCadastro = document.getElementById('senha');
 
-if (btnSenhaCadastro && inputSenhaCadastro) {
-    btnSenhaCadastro.addEventListener('click', () => {
-        if (inputSenhaCadastro.type === 'password') {
-            inputSenhaCadastro.type = 'text';
-            btnSenhaCadastro.classList.replace('bi-eye', 'bi-eye-slash');
-        } else {
-            inputSenhaCadastro.type = 'password';
-            btnSenhaCadastro.classList.replace('bi-eye-slash', 'bi-eye');
-        }
-    });
-}
+    if (btnSenhaCadastro && inputSenhaCadastro) {
+        btnSenhaCadastro.addEventListener('click', () => {
+            if (inputSenhaCadastro.type === 'password') {
+                inputSenhaCadastro.type = 'text';
+                btnSenhaCadastro.classList.replace('bi-eye', 'bi-eye-slash');
+            } else {
+                inputSenhaCadastro.type = 'password';
+                btnSenhaCadastro.classList.replace('bi-eye-slash', 'bi-eye');
+            }
+        });
+    }
 
-const signUpButton = document.getElementById('signUp');
-const signInButton = document.getElementById('signIn');
-const container = document.querySelector('.container');
+    /*=============================================================================================
+    TROCAR ENTRE LOGIN E CADASTRO
+    =============================================================================================*/
+    const signUpButton = document.getElementById('signUp');
+    const signInButton = document.getElementById('signIn');
+    const container = document.querySelector('.container');
 
-if (signUpButton && signInButton && container) {
-    signUpButton.addEventListener('click', () => {
-        container.classList.add('right-panel-active');
-    });
+    if (signUpButton && signInButton && container) {
+        signUpButton.addEventListener('click', () => {
+            container.classList.add('right-panel-active');
+        });
 
-    signInButton.addEventListener('click', () => {
-        container.classList.remove('right-panel-active');
-    });
-}
-    
+        signInButton.addEventListener('click', () => {
+            container.classList.remove('right-panel-active');
+        });
+    }
+
+    /*=============================================================================================
+    DROPDOWN DA CONTA
+    =============================================================================================*/
     const btnConta = document.getElementById('btnConta');
     const dropdown = document.getElementById('dropdown');
 
@@ -59,13 +71,11 @@ if (signUpButton && signInButton && container) {
         document.addEventListener('click', function() {
             dropdown.classList.add('hidden');
         });
-    } else {
-        console.error('Elementos btnConta ou dropdown não encontrados no HTML');
     }
 
-    // ------------------------
-    // CAMPO DINÂMICO DO PROFISSIONAL
-    // ------------------------
+    /*=============================================================================================
+    CAMPO DINÂMICO DO PROFISSIONAL
+    =============================================================================================*/
     const area = document.getElementById('areaProfissional');
     const documentoLabel = document.getElementById('documentoLabel');
     const documentoInput = document.getElementById('documentoProfissional');
@@ -83,12 +93,12 @@ if (signUpButton && signInButton && container) {
 
             documentoLabel.innerText = documento;
             documentoInput.placeholder = `Digite seu ${documento}`;
-    });
-   }
+        });
+    }
 
-    // ------------------------
-    // FUNÇÃO VALIDADORA DE CPF
-    // ------------------------
+    /*=============================================================================================
+    FUNÇÃO VALIDADORA DE CPF
+    =============================================================================================*/
     function validarCPF(cpf) {
         cpf = cpf.replace(/\D/g, '');
 
@@ -124,9 +134,9 @@ if (signUpButton && signInButton && container) {
         return true;
     }
 
-    // ------------------------
-    // FUNÇÃO PARA MÁSCARA DE CPF
-    // ------------------------
+    /*=============================================================================================
+    FUNÇÃO PARA MÁSCARA DE CPF
+    =============================================================================================*/
     function aplicarMascaraCPF(input) {
         let value = input.value.replace(/\D/g, '');
 
@@ -134,37 +144,44 @@ if (signUpButton && signInButton && container) {
 
         if (value.length <= 3) {
             input.value = value;
+
         } else if (value.length <= 6) {
             input.value = value.replace(/(\d{3})(\d+)/, '$1.$2');
+
         } else if (value.length <= 9) {
             input.value = value.replace(/(\d{3})(\d{3})(\d+)/, '$1.$2.$3');
+
         } else {
             input.value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
         }
     }
 
-    // ------------------------
-    // APLICA MÁSCARA NOS CAMPOS DE CPF
-    // ------------------------
+    /*=============================================================================================
+    APLICAR MÁSCARA NOS CAMPOS DE CPF
+    =============================================================================================*/
     const cpfAluno = document.getElementById('cpf');
     const cpfProf = document.getElementById('cpfProf');
 
     if (cpfAluno) {
-        cpfAluno.addEventListener('input', () => aplicarMascaraCPF(cpfAluno));
+        cpfAluno.addEventListener('input', () => {
+            aplicarMascaraCPF(cpfAluno)
+        });
     }
 
     if (cpfProf) {
-        cpfProf.addEventListener('input', () => aplicarMascaraCPF(cpfProf));
+        cpfProf.addEventListener('input', () => {
+            aplicarMascaraCPF(cpfProf)
+        });
     }
 
-    // ------------------------
-    // URL BASE DA API ATUAL
-    // ------------------------
+    /*=============================================================================================
+    URL BASE DA API
+    =============================================================================================*/
     const API_BASE = 'http://localhost:8080';
 
-    // ------------------------
-    // CADASTRO DE ALUNO
-    // ------------------------
+    /*=============================================================================================
+    CADASTRO DE ALUNO
+    =============================================================================================*/
     const formAluno = document.getElementById('formAluno');
 
     if (formAluno) {
@@ -191,28 +208,35 @@ if (signUpButton && signInButton && container) {
             try {
                 const response = await fetch(`${API_BASE}/alunos`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify(dados)
                 });
 
                 if (response.ok) {
                     const aluno = await response.json();
+
                     alert(`Cadastro realizado com sucesso! ID: ${aluno.id}`);
+
                     formAluno.reset();
+
                 } else {
                     const erro = await response.text();
                     alert(`Erro: ${erro}`);
                 }
+
             } catch (error) {
                 console.error(error);
+
                 alert('Erro de conexão com o servidor. Verifique se a API está rodando.');
             }
         });
     }
 
-    // ------------------------
-    // CADASTRO DE PROFISSIONAL
-    // ------------------------
+    /*=============================================================================================
+    CADASTRO DE PROFISSIONAL
+    =============================================================================================*/
     const formProfissional = document.getElementById('formProfissional');
 
     if (formProfissional) {
@@ -238,31 +262,43 @@ if (signUpButton && signInButton && container) {
             try {
                 const response = await fetch(`${API_BASE}/profissionais`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify(dados)
                 });
 
                 if (response.ok) {
                     const profissional = await response.json();
+
                     alert(`Cadastro profissional realizado! ID: ${profissional.id}`);
+
                     formProfissional.reset();
 
-                    if (documentoLabel) documentoLabel.innerText = 'Documento Profissional';
-                    if (documentoInput) documentoInput.placeholder = '';
+                    if (documentoLabel) {
+                        documentoLabel.innerText = 'Documento Profissional';
+                    }
+
+                    if (documentoInput) {
+                        documentoInput.placeholder = '';
+                    }
+
                 } else {
                     const erro = await response.text();
                     alert(`Erro: ${erro}`);
                 }
+
             } catch (error) {
                 console.error(error);
+
                 alert('Erro de conexão com o servidor.');
             }
         });
     }
 
-    // ------------------------
-    // LOGIN
-    // ------------------------
+    /*=============================================================================================
+    LOGIN
+    =============================================================================================*/
     const formLogin = document.getElementById('formLogin');
 
     if (formLogin) {
@@ -277,7 +313,9 @@ if (signUpButton && signInButton && container) {
             try {
                 const response = await fetch(`${API_BASE}/auth/login`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify(dados)
                 });
 
@@ -290,15 +328,21 @@ if (signUpButton && signInButton && container) {
 
                     if (resultado.tipo === 'Aluno') {
                         window.location.href = 'dashboard-aluno.html';
+
                     } else if (resultado.tipo === 'Profissional') {
                         window.location.href = 'dashboard-profissional.html';
                     }
 
                 } else {
-                    alert(resultado.mensagem || 'Falha no login. Verifique suas credenciais.');
+                    alert(
+                        resultado.mensagem ||
+                        'Falha no login. Verifique suas credenciais.'
+                    );
                 }
+
             } catch (error) {
                 console.error(error);
+
                 alert('Erro de conexão com o servidor.');
             }
         });

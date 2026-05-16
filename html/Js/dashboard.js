@@ -1,20 +1,13 @@
-// ========================
-// DASHBOARD - PROFISSIONAIS E AGENDAMENTOS
-// ========================
-
 const API = 'http://localhost:8080';
-
 const usuarioLogado = JSON.parse(sessionStorage.getItem('usuario'));
-
 let currentAlunoId = usuarioLogado?.id || 1;
 
-// ------------------------
-// CARREGAR PROFISSIONAIS
-// ------------------------
+/*=============================================================================================
+CARREGAR PROFISSIONAIS
+==============================================================================================*/
 async function carregarProfissionais(filtro = 'todos') {
     try {
         const res = await fetch(`${API}/profissionais`);
-
         let profissionais = await res.json();
 
         if (filtro !== 'todos') {
@@ -35,10 +28,6 @@ async function carregarProfissionais(filtro = 'todos') {
                 <h4>${prof.nomeCompleto}</h4>
                 <p>${prof.areaProfissional}</p>
 
-                <div class="horarios" id="horarios-${prof.id}">
-                    <span class="horario-badge">Horários ainda não implementados</span>
-                </div>
-
                 <div class="acoes">
                     <button class="conversar-btn" data-id="${prof.id}" data-nome="${prof.nomeCompleto}">
                         💬 Conversar
@@ -58,16 +47,14 @@ async function carregarProfissionais(filtro = 'todos') {
         });
 
         document.querySelectorAll('.agendar-btn').forEach(btn => {
-
-    btn.addEventListener('click', () => {
-
-        abrirModalAgendamento(
-            btn.dataset.id,
-            btn.dataset.nome,
-            btn.dataset.area
-        );
-    });
-});
+            btn.addEventListener('click', () => {
+                abrirModalAgendamento(
+                    btn.dataset.id,
+                    btn.dataset.nome,
+                    btn.dataset.area
+                );
+            });
+        });
 
     } catch (err) {
         console.error(err);
@@ -75,15 +62,12 @@ async function carregarProfissionais(filtro = 'todos') {
     }
 }
 
-// ------------------------
-// MODAL DE AGENDAMENTO
-// OBS: Backend ainda não possui horários/agendamentos
-// ------------------------
-let profSelecionadoId = null;
-
+/*=============================================================================================
+MODEL DE AGENDAMENTO
+=============================================================================================*/
 async function abrirModalAgendamento(id, nome, area) {
     document.getElementById('profAreaModal').innerText = area;
-    profSelecionadoId = id;
+
     const profNomeModal = document.getElementById('profNomeModal');
     const profId = document.getElementById('profId');
     const modalAgendar = document.getElementById('modalAgendar');
@@ -93,13 +77,11 @@ async function abrirModalAgendamento(id, nome, area) {
     if (profId) profId.value = id;
 
     try {
-
         const response = await fetch(
             `${API}/agenda-profissional/profissional/${id}`
         );
 
         let horarios = await response.json();
-
         const agora = new Date();
 
         horarios = horarios.filter(horario => {
@@ -120,17 +102,11 @@ async function abrirModalAgendamento(id, nome, area) {
             selectHorario.innerHTML = '<option>Nenhum horário disponível</option>';
 
         } else {
-
             horarios.forEach(horario => {
-
                 const option = document.createElement('option');
-
                 option.value = horario.id;
-
                 const partesData = horario.dataDisponivel.split("-");
-
                 const dataFormatada = `${partesData[2]}/${partesData[1]}/${partesData[0]}`;
-
                 const dataObj = new Date(
                     Number(partesData[0]),
                     Number(partesData[1]) - 1,
@@ -148,11 +124,8 @@ async function abrirModalAgendamento(id, nome, area) {
                 ];
 
                 const diaSemana = diasSemana[dataObj.getDay()];
-
                 const hora = horario.horaDisponivel.substring(0, 5);
-
                 option.textContent = `${diaSemana} • ${dataFormatada} às ${hora}`;
-
                 selectHorario.appendChild(option);
             });
         }
@@ -160,19 +133,16 @@ async function abrirModalAgendamento(id, nome, area) {
         modalAgendar.classList.remove('hidden');
 
     } catch (error) {
-
         console.error(error);
-
         alert('Erro ao carregar horários.');
     }
 }
 
-// ------------------------
-// FORM AGENDAMENTO
-// OBS: Ainda não funciona de verdade sem backend
-// ------------------------
+/*=============================================================================================
+FORM AGENDAMENTO
+=============================================================================================*/
 document.getElementById('formAgendamento')?.addEventListener('submit', async (e) => {
-
+    
     e.preventDefault();
 
     const horarioId =
@@ -184,7 +154,6 @@ document.getElementById('formAgendamento')?.addEventListener('submit', async (e)
     };
 
     try {
-
         const response = await fetch(
             `${API}/agenda-profissional/agendar`,
             {
@@ -199,29 +168,24 @@ document.getElementById('formAgendamento')?.addEventListener('submit', async (e)
         if (response.ok) {
             alert('Agendamento realizado com sucesso!');
 
-            document.getElementById('modalAgendar')
-            .classList.add('hidden');
+            document.getElementById('modalAgendar').classList.add('hidden');
 
             carregarConsultasPendentes();
             carregarProfissionais();
 
         } else {
-
             alert('Erro ao realizar agendamento.');
         }
 
     } catch (error) {
-
         console.error(error);
-
         alert('Erro de conexão com o servidor.');
     }
 });
 
-// ------------------------
-// CONSULTAS PENDENTES
-// OBS: Ainda não existe endpoint no backend
-// ------------------------
+/*=============================================================================================
+CONSULTAS PENDENTES
+=============================================================================================*/
 async function carregarConsultasPendentes() {
     const div = document.getElementById('pendingList');
 
@@ -229,9 +193,7 @@ async function carregarConsultasPendentes() {
 
     try {
         const response = await fetch(`${API}/agenda-profissional/aluno/${currentAlunoId}`);
-
         const consultas = await response.json();
-
         const consultasAtivas = consultas.filter(c =>
             c.statusHorario === 'agendado'
         );
@@ -259,9 +221,9 @@ async function carregarConsultasPendentes() {
     }
 }
 
-// ------------------------
-// BOTÕES DE NAVEGAÇÃO
-// ------------------------
+/*=============================================================================================
+BOTÕES DE NAVEGAÇÃO
+=============================================================================================*/
 document.getElementById('verMinhasConsultas')?.addEventListener('click', () => {
     alert('Minhas consultas ainda não foram implementadas.');
 });
@@ -270,16 +232,16 @@ document.getElementById('verHistorico')?.addEventListener('click', () => {
     alert('Histórico ainda não foi implementado.');
 });
 
-// ------------------------
-// FECHAR MODAL
-// ------------------------
+/*=============================================================================================
+FECHAR MODAL
+=============================================================================================*/
 document.querySelector('.fechar-modal')?.addEventListener('click', () => {
     document.getElementById('modalAgendar')?.classList.add('hidden');
 });
 
-// ------------------------
-// FILTROS
-// ------------------------
+/*=============================================================================================
+FILTROS
+=============================================================================================*/
 document.querySelectorAll('.filtro-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
@@ -290,10 +252,9 @@ document.querySelectorAll('.filtro-btn').forEach(btn => {
     });
 });
 
-// =========================
-// MODAL DE SAIR
-// =========================
-
+/*=============================================================================================
+MODAL DE SAIR
+=============================================================================================*/
 const logoutBtn = document.getElementById('logoutBtn');
 const modalSair = document.getElementById('modalSair');
 const cancelarSair = document.getElementById('cancelarSair');
@@ -331,6 +292,9 @@ window.abrirModalCancelamentoAluno = function(horarioId) {
     modalCancelarConsulta.classList.add("active");
 };
 
+/*=============================================================================================
+ALUNO CANCELA A CONSULTA
+=============================================================================================*/
 async function cancelarConsultaAluno() {
     if (!consultaAlunoParaCancelar) return;
 
@@ -352,6 +316,7 @@ async function cancelarConsultaAluno() {
 
             carregarConsultasPendentes();
             carregarProfissionais();
+
         } else {
             alert('Erro ao cancelar consulta.');
         }
@@ -376,8 +341,8 @@ modalCancelarConsulta?.addEventListener("click", (e) => {
     }
 });
 
-// ------------------------
-// INICIALIZAÇÃO
-// ------------------------
+/*=============================================================================================
+INICIALIZAÇÃO
+=============================================================================================*/
 carregarProfissionais();
 carregarConsultasPendentes();

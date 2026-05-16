@@ -1,9 +1,8 @@
-// ============================================
-// FUNÇÕES QUE VIRÃO DA API/BANCO DE DADOS
-// ============================================
+/*=============================================================================================
+FUNÇÕES QUE VIRÃO DA API/BANCO DE DADOS
+=============================================================================================*/
 
 const API = 'http://localhost:8080';
-
 const usuarioLogado = JSON.parse(sessionStorage.getItem('usuario'));
 
 if (!usuarioLogado || usuarioLogado.tipo !== 'Profissional') {
@@ -12,7 +11,11 @@ if (!usuarioLogado || usuarioLogado.tipo !== 'Profissional') {
 
 const profissionalId = usuarioLogado.id;
 
+/*=============================================================================================
+BUSCAR ALUNO POR ID
+=============================================================================================*/
 async function buscarAlunoPorId(alunoId) {
+
   try {
     const response = await fetch(`${API}/alunos/${alunoId}`);
 
@@ -22,14 +25,17 @@ async function buscarAlunoPorId(alunoId) {
 
     return await response.json();
 
-    } catch (error) {
-      console.error("Erro ao buscar aluno:", error);
-      return null;
-    }
+  } catch (error) {
+    console.error("Erro ao buscar aluno:", error);
+    return null;
   }
+}
 
-// Buscar dados do profissional logado
+/*=============================================================================================
+BUSCAR DADOS DO PROFISSIONAL LOGADO
+=============================================================================================*/
 async function buscarDadosProfissional() {
+
   try {
     const response = await fetch(`${API}/profissionais`);
 
@@ -51,8 +57,11 @@ async function buscarDadosProfissional() {
   }
 }
 
-// Buscar agendamentos do profissional
+/*=============================================================================================
+BUSCAR AGENDAMENTOS DO PROFISSIONAL
+=============================================================================================*/
 async function buscarAgendamentos() {
+
   const response = await fetch(
     `${API}/agenda-profissional/profissional/${profissionalId}/todos`
   );
@@ -73,11 +82,9 @@ async function buscarAgendamentos() {
   return agendados;
 }
 
-// ============================================
-// LÓGICA DO DASHBOARD
-// ============================================
-
-// Agrupar agendamentos por aluno
+/*=============================================================================================
+LÓGICA DO DASHBOARD - AGRUPAR AGENDAMENTOS POR ALUNO
+=============================================================================================*/
 function agruparPorAluno(agendamentos) {
 
   const alunosMap = new Map();
@@ -96,7 +103,6 @@ function agruparPorAluno(agendamentos) {
     }
 
     const aluno = alunosMap.get(ag.alunoId);
-
     aluno.totalAgendamentos++;
 
     aluno.agendamentos.push({
@@ -123,7 +129,9 @@ function agruparPorAluno(agendamentos) {
   return alunos;
 }
 
-// Formatar data para exibição
+/*=============================================================================================
+FORMATAR DATA PARA EXIBIÇÃO
+=============================================================================================*/
 function formatarData(dataString, horaString) {
 
   const partes = dataString.split("-");
@@ -145,7 +153,6 @@ function formatarData(dataString, horaString) {
   ];
 
   const diaSemana = diasSemana[dataObj.getDay()];
-
   const hoje = new Date();
   const amanha = new Date();
 
@@ -168,7 +175,9 @@ function formatarData(dataString, horaString) {
   return `${diaSemana} • ${partes[2]}/${partes[1]}/${partes[0]} às ${hora}`;
 }
 
-// Renderizar lista de alunos
+/*=============================================================================================
+RENDERIZAR LISTA DE ALUNOS
+=============================================================================================*/
 function renderizarAlunos(agendamentos) {
   const container = document.getElementById("alunosList");
   if (!container) return;
@@ -249,7 +258,9 @@ function renderizarAlunos(agendamentos) {
   });
 }
 
-// Atualizar nome do profissional
+/*=============================================================================================
+ATUALIZAR NOME DO PROFISSIONAL
+=============================================================================================*/
 function atualizarNomeProfissional(nome, profissao) {
   const nomeElement = document.getElementById("profissionalNome");
 
@@ -260,35 +271,37 @@ function atualizarNomeProfissional(nome, profissao) {
   }
 }
 
-// Carregar todos os dados
+/*=============================================================================================
+CARREGAR TODOS OS DADOS
+=============================================================================================*/
 async function carregarDados() {
+
   try {
-    // Buscar dados do profissional
     const profissional = await buscarDadosProfissional();
+
     if (profissional) {
       atualizarNomeProfissional(
         profissional.nomeCompleto || profissional.nome,
         profissional.areaProfissional
       );
     }
-    
-    // Buscar agendamentos
+
     const agendamentos = await buscarAgendamentos();
     renderizarAlunos(agendamentos);
     
   } catch (error) {
     console.error("Erro ao carregar dados:", error);
     const container = document.getElementById("alunosList");
+    
     if (container) {
       container.innerHTML = '<div class="empty-state"><p>Erro ao carregar dados. Tente novamente.</p></div>';
     }
   }
 }
 
-// ============================================
-// NAVEGAÇÃO
-// ============================================
-
+/*=============================================================================================
+NAVEGAÇÃO
+=============================================================================================*/
 document.getElementById("navAlunos")?.addEventListener("click", (e) => {
   e.preventDefault();
   window.location.href = "dashboard-profissional.html";
@@ -299,16 +312,10 @@ document.getElementById("navAgenda")?.addEventListener("click", (e) => {
   window.location.href = "agenda-profissional.html";
 });
 
-// ============================================
-// INICIALIZAR
-// ============================================
-
+/*=============================================================================================
+INICIALIZAR
+=============================================================================================*/
 carregarDados();
-
-let consultaParaCancelar = null;
-const modalCancelarConsulta = document.getElementById("modalCancelarConsulta");
-const fecharModalCancelamento = document.getElementById("fecharModalCancelamento");
-const confirmarCancelamentoConsulta = document.getElementById("confirmarCancelamentoConsulta");
 
 const logoutBtn = document.getElementById('logoutBtn');
 const modalSair = document.getElementById('modalSair');
@@ -334,7 +341,16 @@ if (logoutBtn && modalSair && cancelarSair && confirmarSair) {
     if (e.target === modalSair) {
       modalSair.classList.remove('active');
     }
-});
+  });
+}
+
+/*=============================================================================================
+MODAL CANCELAR CONSULTA PROFISSIONAL
+=============================================================================================*/
+let consultaParaCancelar = null;
+const modalCancelarConsulta = document.getElementById("modalCancelarConsulta");
+const fecharModalCancelamento = document.getElementById("fecharModalCancelamento");
+const confirmarCancelamentoConsulta = document.getElementById("confirmarCancelamentoConsulta");
 
 window.abrirModalCancelamento = function(horarioId) {
   consultaParaCancelar = horarioId;
@@ -346,7 +362,6 @@ window.cancelarConsultaProfissional = async function() {
   if (!consultaParaCancelar) return;
 
   try {
-
     const response = await fetch(`${API}/agenda-profissional/status`, {
       method: "PUT",
       headers: {
@@ -359,22 +374,16 @@ window.cancelarConsultaProfissional = async function() {
     });
 
     if (response.ok) {
-
       modalCancelarConsulta.classList.remove("active");
-
       consultaParaCancelar = null;
-
       carregarDados();
 
     } else {
-
-      alert("Erro ao cancelar consulta.");
+        alert("Erro ao cancelar consulta.");
     }
 
   } catch (error) {
-
     console.error(error);
-
     alert("Erro de conexão com o servidor.");
   }
 };
@@ -392,4 +401,3 @@ modalCancelarConsulta?.addEventListener("click", (e) => {
     modalCancelarConsulta.classList.remove("active");
   }
 });
-}
