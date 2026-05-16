@@ -380,3 +380,26 @@ nav .active {
     opacity: 1;
   }
 }
+
+.hidden {
+  display: none;
+}
+
+.lista-agendamentos-aluno {
+  width: 100%;
+  margin-top: 14px;
+  padding: 12px;
+  background: #f3f4f6;
+  border-radius: 12px;
+}
+
+.agendamento-item {
+  padding: 8px 0;
+  color: #374151;
+  font-size: 14px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.agendamento-item:last-child {
+  border-bottom: none;
+}
