@@ -305,6 +305,20 @@ function getDateForWeekDay(dayKey) {
 // Salvar agenda no localStorage
 async function saveAgenda() {
 
+  
+
+  const responseHorarios = await fetch(
+    `${API}/agenda-profissional/profissional/${profissionalId}/todos`
+  );
+
+  const horariosExistentes = await responseHorarios.json();
+
+  const horariosBloqueados = new Set(
+    horariosExistentes
+      .filter(h => h.statusHorario === "agendado")
+      .map(h => `${h.dataDisponivel}_${h.horaDisponivel.substring(0, 5)}`)
+  );
+
   await fetch(`${API}/agenda-profissional/profissional/${profissionalId}`, {
   method: 'DELETE'
   });
@@ -324,9 +338,16 @@ async function saveAgenda() {
 
       totalSlots++;
 
+      const dataHorario = getDateForWeekDay(day.key);
+      const chaveHorario = `${dataHorario}_${slot.time}`;
+
+      if (horariosBloqueados.has(chaveHorario)) {
+        continue;
+      }
+
       const dados = {
         profissionalId: profissionalId,
-        dataDisponivel: getDateForWeekDay(day.key),
+        dataDisponivel: dataHorario,
         horaDisponivel: `${slot.time}:00`,
         descricao: `Horário disponível - ${d.name}`
       };
