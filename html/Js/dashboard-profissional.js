@@ -30,7 +30,25 @@ async function buscarAlunoPorId(alunoId) {
 
 // Buscar dados do profissional logado
 async function buscarDadosProfissional() {
-  return usuarioLogado;
+  try {
+    const response = await fetch(`${API}/profissionais`);
+
+    if (!response.ok) {
+      return usuarioLogado;
+    }
+
+    const profissionais = await response.json();
+
+    const profissionalCompleto = profissionais.find(
+      prof => prof.id === profissionalId
+    );
+
+    return profissionalCompleto || usuarioLogado;
+
+  } catch (error) {
+    console.error("Erro ao buscar profissional:", error);
+    return usuarioLogado;
+  }
 }
 
 // Buscar agendamentos do profissional
@@ -232,10 +250,13 @@ function renderizarAlunos(agendamentos) {
 }
 
 // Atualizar nome do profissional
-function atualizarNomeProfissional(nome) {
+function atualizarNomeProfissional(nome, profissao) {
   const nomeElement = document.getElementById("profissionalNome");
+
   if (nomeElement && nome) {
-    nomeElement.textContent = `Olá, ${nome} 👨‍🏫`;
+    nomeElement.textContent = profissao
+      ? `Olá, ${nome} (${profissao})`
+      : `Olá, ${nome}`;
   }
 }
 
@@ -244,8 +265,11 @@ async function carregarDados() {
   try {
     // Buscar dados do profissional
     const profissional = await buscarDadosProfissional();
-    if (profissional && profissional.nome) {
-      atualizarNomeProfissional(profissional.nome);
+    if (profissional) {
+      atualizarNomeProfissional(
+        profissional.nomeCompleto || profissional.nome,
+        profissional.areaProfissional
+      );
     }
     
     // Buscar agendamentos
