@@ -160,6 +160,7 @@ async function enviarMensagem() {
             },
             body: JSON.stringify({
                 conversaId: conversaId,
+                remetenteId: usuarioLogado.id,
                 remetenteTipo: 'Profissional',
                 mensagem: texto
             })
