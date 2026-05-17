@@ -6,31 +6,51 @@
   <title>FitConnect</title>
   <link rel="stylesheet" href="css/global.css">
   <link rel="stylesheet" href="css/home.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header>
+
+  <header class="navbar">
     <div class="logo">FitConnect</div>
     <nav>
       <a href="servicos.html">Serviços</a>
       <a href="contato.html">Contato</a>
+
     </nav>
   </header>
 
   <section class="hero">
-    <div class="overlay"></div>
+    <div class="hero-bg">
+      <img
+        src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070"
+        alt="Academia"
+        class="hero-img"
+      >
+      <div class="hero-overlay"></div>
+    </div>
+
     <div class="hero-content">
-      <h1>FitConnect</h1>
-      <p>Conecte-se aos melhores profissionais de saúde e performance.</p>
+
+      <span class="hero-tag">FITCONNECT PREMIUM</span>
+
+      <h1>
+        Sua evolução começa<br>
+        com o profissional<br>
+        <span class="highlight">certo.</span>
+      </h1>
+
+      <p>
+        Conecte-se aos melhores nutricionistas,<br>
+        personal trainers e fisioterapeutas.
+      </p>
+
       <div class="buttons">
-        <button onclick="location.href='login.html'">Fazer Login</button>
-        <div class="dropdown-area">
-          <button id="btnConta">Criar Conta</button>
-          <div class="dropdown hidden" id="dropdown">
-            <button onclick="location.href='cadastro-aluno.html'">Aluno</button>
-            <button onclick="location.href='cadastro-profissional.html'">Profissional</button>
-          </div>
-        </div>
+        <button class="btn-primary" onclick="location.href='login.html'">
+          Entrar
+        </button>
       </div>
+
     </div>
   </section>
 

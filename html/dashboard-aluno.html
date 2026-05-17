@@ -11,49 +11,99 @@
 
 </head>
 <body>
-  <header>
-    <div class="logo">FitConnect</div>
 
-    <nav>
-      <a href="dashboard-aluno.html" class="active"><i class="fas fa-home"></i> Início</a>
-      <a href="minha-conta.html"><i class="fas fa-user"></i> Minha conta</a>
-      <a href="contato.html"><i class="fas fa-envelope"></i> Contato</a>
-      <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Sair</a>
-    </nav>
-  </header>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div>
+      <div class="logo">FitConnect</div>
+      <nav>
+        <a href="dashboard-aluno.html" class="active">
+          <i class="fas fa-home"></i> Início
+        </a>
+        <a href="minha-conta.html">
+          <i class="fas fa-user"></i> Minha conta
+        </a>
+        <a href="contato.html">
+          <i class="fas fa-envelope"></i> Contato
+        </a>
+        <a href="#" id="logoutBtn">
+          <i class="fas fa-sign-out-alt"></i> Sair
+        </a>
+      </nav>
+    </div>
 
-  <main class="dashboard-grid">
+      <!-- <div class="support-card">
+        <h3>Precisa de ajuda?</h3>
+        <p>Nossa equipe está disponível para te ajudar.</p>
+        <button>Entrar em contato</button>
+      </div> -->
+  </aside>
 
-    <aside class="consultas-pendentes">
-      <div class="card">
-        <h3><i class="fas fa-clock"></i> Consultas Pendentes</h3>
+  <!-- MAIN -->
+  <main class="main">
 
-        <div id="pendingList" class="lista-consultas">
-          <p class="placeholder">Carregando...</p>
-        </div>
+    <!-- TOPBAR -->
+    <!-- <header class="topbar">
+      <div>
+        <h2>Olá, bem-vindo 👋</h2>
+        <p>Encontre o profissional ideal para sua rotina.</p>
+      </div>
+    </header> -->
 
-        <div class="button-group">
-          <button id="verMinhasConsultas" class="btn-outline">Ver minhas consultas</button>
-          <button id="verHistorico" class="btn-outline">Histórico de consultas</button>
+    <!-- BANNER -->
+    <section class="banner">
+      <div class="banner-overlay"></div>
+      <img
+        class="banner-image"
+        src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1974"
+        alt="Banner FitConnect"
+      >
+      <div class="banner-content">
+        <span class="tag">FITCONNECT PREMIUM</span>
+        <h1>Sua evolução começa<br>com o profissional certo.</h1>
+        <p>Nutricionistas, personal trainers e fisioterapeutas conectados em uma única plataforma.</p>
+        <div class="banner-stats">
+          <div class="stat"><strong>+2 mil</strong><span>Consultas realizadas</span></div>
+          <div class="stat"><strong>+350</strong><span>Profissionais ativos</span></div>
+          <div class="stat"><strong>98%</strong><span>Satisfação dos alunos</span></div>
         </div>
       </div>
-    </aside>
+    </section>
 
-    <section class="profissionais-area">
-      <div class="card">
-        <h2><i class="fas fa-dumbbell"></i> Qual tipo de serviço você precisa?</h2>
+    <!-- CONSULTAS PENDENTES -->
+    <section class="dashboard-grid">
 
-        <div class="filtros">
-          <button class="filtro-btn active" data-area="todos">Todos</button>
-          <button class="filtro-btn" data-area="Nutricionista">Nutricionista</button>
-          <button class="filtro-btn" data-area="Personal Trainer">Personal Trainer</button>
-          <button class="filtro-btn" data-area="Fisioterapeuta">Fisioterapeuta</button>
+      <aside class="consultas-pendentes">
+        <div class="card">
+          <h3><i class="fas fa-clock"></i> Consultas Pendentes</h3>
+          <div id="pendingList" class="lista-consultas">
+            <p class="placeholder">Carregando...</p>
+          </div>
+          <div class="button-group">
+            <button id="verMinhasConsultas" class="btn-outline">Ver minhas consultas</button>
+            <button id="verHistorico" class="btn-outline">Histórico</button>
+          </div>
         </div>
+      </aside>
 
-        <div id="profissionaisContainer" class="profissionais-grid">
-          <p class="placeholder">Buscando profissionais...</p>
+      <!-- PROFISSIONAIS -->
+      <section class="profissionais-area">
+        <div class="card">
+          <h2><i class="fas fa-dumbbell"></i> Qual tipo de serviço você precisa?</h2>
+
+          <div class="filtros">
+            <button class="filtro-btn active" data-area="todos">Todos</button>
+            <button class="filtro-btn" data-area="Nutricionista">Nutricionista</button>
+            <button class="filtro-btn" data-area="Personal Trainer">Personal Trainer</button>
+            <button class="filtro-btn" data-area="Fisioterapeuta">Fisioterapeuta</button>
+          </div>
+
+          <div id="profissionaisContainer" class="profissionais-grid">
+            <p class="placeholder">Buscando profissionais...</p>
+          </div>
         </div>
-      </div>
+      </section>
+
     </section>
 
   </main>
@@ -62,18 +112,13 @@
   <div id="modalAgendar" class="modal hidden">
     <div class="modal-card card">
       <span class="fechar-modal">&times;</span>
-
       <h3>Agendar consulta</h3>
-
       <form id="formAgendamento">
         <input type="hidden" id="profId">
-
         <p><strong>Profissional:</strong> <span id="profNomeModal"></span></p>
         <p><strong>Profissão:</strong> <span id="profAreaModal"></span></p>
-
         <label>Horários disponíveis:</label>
         <select id="horaConsulta" required></select>
-
         <button type="submit" class="btn-primary">Confirmar agendamento</button>
       </form>
     </div>
@@ -83,9 +128,7 @@
   <div id="modalSair" class="modal-sair">
     <div class="modal-sair-card">
       <h2>Deseja sair?</h2>
-
       <p>Você será desconectado da sua conta.</p>
-
       <div class="modal-sair-buttons">
         <button id="cancelarSair" class="btn-cancelar">Cancelar</button>
         <button id="confirmarSair" class="btn-confirmar-sair">Sair</button>
@@ -93,24 +136,16 @@
     </div>
   </div>
 
+  <!-- Modal Cancelar Consulta -->
   <div id="modalCancelarConsulta" class="modal-sair">
-  <div class="modal-sair-card">
-
-    <h2>Cancelar consulta?</h2>
-
-    <p>Essa ação irá cancelar sua consulta agendada.</p>
-
-    <div class="modal-sair-buttons">
-      <button id="fecharModalCancelamento" class="btn-cancelar">
-        Voltar
-      </button>
-
-      <button id="confirmarCancelamentoConsulta" class="btn-confirmar-sair">
-        Cancelar consulta
-      </button>
+    <div class="modal-sair-card">
+      <h2>Cancelar consulta?</h2>
+      <p>Essa ação irá cancelar sua consulta agendada.</p>
+      <div class="modal-sair-buttons">
+        <button id="fecharModalCancelamento" class="btn-cancelar">Voltar</button>
+        <button id="confirmarCancelamentoConsulta" class="btn-confirmar-sair">Cancelar consulta</button>
+      </div>
     </div>
-
-  </div>
   </div>
 
   <script src="Js/script.js"></script>
