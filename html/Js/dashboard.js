@@ -40,11 +40,18 @@ async function carregarProfissionais(filtro = 'todos') {
             </div>
         `).join('');
 
-        document.querySelectorAll('.conversar-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                alert('Chat ainda não implementado no backend.');
-            });
-        });
+/*=============================================================================================
+ADICIONADO
+=============================================================================================*/
+       document.querySelectorAll('.conversar-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const profissionalId = btn.dataset.id;
+        const profissionalNome = btn.dataset.nome;
+
+        window.location.href =
+            `chat.html?profissionalId=${profissionalId}&profissionalNome=${encodeURIComponent(profissionalNome)}`;
+    });
+});
 
         document.querySelectorAll('.agendar-btn').forEach(btn => {
             btn.addEventListener('click', () => {

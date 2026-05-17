@@ -241,6 +241,18 @@ function renderizarAlunos(agendamentos) {
     btnVer.textContent = "Ver agendamentos";
     btnVer.className = "horario-btn";
 
+/*=============================================================================================
+ADICIONADO O BOTÃO DE CONVERSA
+=============================================================================================*/
+    const btnConversar = document.createElement("button");
+btnConversar.textContent = "💬 Conversar";
+btnConversar.className = "horario-btn";
+
+btnConversar.onclick = () => {
+  window.location.href =
+    `chat-profissional.html?alunoId=${aluno.id}&alunoNome=${encodeURIComponent(aluno.nome)}`;
+};
+
     btnVer.onclick = () => {
       listaDiv.classList.toggle("hidden");
 
@@ -249,9 +261,15 @@ function renderizarAlunos(agendamentos) {
         : "Ocultar agendamentos";
     };
 
+    const actionsDiv = document.createElement("div");
+    actionsDiv.className = "acoes-botoes";
+
+    actionsDiv.appendChild(btnConversar);
+    actionsDiv.appendChild(btnVer);
+
     card.appendChild(infoDiv);
     card.appendChild(horarioDiv);
-    card.appendChild(btnVer);
+    card.appendChild(actionsDiv);
     card.appendChild(listaDiv);
 
     container.appendChild(card);

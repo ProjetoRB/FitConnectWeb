@@ -403,3 +403,9 @@ nav .active {
 .agendamento-item:last-child {
   border-bottom: none;
 }
+
+.acoes-botoes {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+}
