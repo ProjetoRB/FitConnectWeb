@@ -730,3 +730,7 @@ nav a.active {
     padding: 10px 10px;
   }
 }
+.conversar-btn.bloqueado {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

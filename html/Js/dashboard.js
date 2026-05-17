@@ -3,12 +3,40 @@ const usuarioLogado = JSON.parse(sessionStorage.getItem('usuario'));
 let currentAlunoId = usuarioLogado?.id || 1;
 
 /*=============================================================================================
+CARREGAR CONSULTAS AGENDADAS DO ALUNO
+==============================================================================================*/
+async function buscarConsultasAgendadasDoAluno() {
+    try {
+        const response = await fetch(`${API}/agenda-profissional/aluno/${currentAlunoId}`);
+
+        if (!response.ok) {
+            return [];
+        }
+
+        const consultas = await response.json();
+
+        return consultas.filter(c =>
+            c.statusHorario === 'agendado'
+        );
+
+    } catch (error) {
+        console.error('Erro ao buscar consultas do aluno:', error);
+        return [];
+    }
+}
+
+/*=============================================================================================
 CARREGAR PROFISSIONAIS
 ==============================================================================================*/
 async function carregarProfissionais(filtro = 'todos') {
     try {
         const res = await fetch(`${API}/profissionais`);
         let profissionais = await res.json();
+        const consultasAgendadas = await buscarConsultasAgendadasDoAluno();
+
+        const profissionaisComConsulta = new Set(
+             consultasAgendadas.map(c => c.profissionalId)
+        );
 
         if (filtro !== 'todos') {
             profissionais = profissionais.filter(p => p.areaProfissional === filtro);
@@ -28,14 +56,23 @@ async function carregarProfissionais(filtro = 'todos') {
                 <h4>${prof.nomeCompleto}</h4>
                 <p>${prof.areaProfissional}</p>
 
-                <div class="acoes">
-                    <button class="conversar-btn" data-id="${prof.id}" data-nome="${prof.nomeCompleto}">
-                        💬 Conversar
-                    </button>
-
-                    <button class="agendar-btn" data-id="${prof.id}" data-nome="${prof.nomeCompleto}" data-area="${prof.areaProfissional}">
-                        📅 Agendar
-                    </button>
+            <div class="acoes">
+                ${
+            profissionaisComConsulta.has(prof.id)
+                             ? `
+            <button class="conversar-btn" data-id="${prof.id}" data-nome="${prof.nomeCompleto}">
+                💬 Conversar
+            </button>
+                `
+            : `
+            <button class="conversar-btn bloqueado" disabled title="Agende uma consulta para conversar">
+                💬 Conversar
+            </button>
+            `
+            }
+            <button class="agendar-btn" data-id="${prof.id}" data-nome="${prof.nomeCompleto}" data-area="${prof.areaProfissional}">
+                📅 Agendar
+            </button>
                 </div>
             </div>
         `).join('');
