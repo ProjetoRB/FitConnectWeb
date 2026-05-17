@@ -91,21 +91,30 @@ async function carregarMensagens() {
 /*=============================================================================================
 RENDERIZAR MENSAGENS
 =============================================================================================*/
+let mensagensRenderizadas = new Set();
+
 function renderizarMensagens(mensagens) {
     if (!chatMessages) return;
 
-    chatMessages.innerHTML = '';
+    const mensagemSistema = chatMessages.querySelector('.mensagem-sistema');
+
+    if (mensagemSistema && mensagens.length > 0) {
+        mensagemSistema.remove();
+    }
 
     if (!mensagens || mensagens.length === 0) {
-        chatMessages.innerHTML = `
-            <div class="mensagem-sistema">
-                Nenhuma mensagem ainda. Envie a primeira resposta.
-            </div>
-        `;
+        if (!chatMessages.querySelector('.mensagem-sistema')) {
+            chatMessages.innerHTML = `
+                <div class="mensagem-sistema">
+                    Nenhuma mensagem ainda. Envie a primeira resposta.
+                </div>
+            `;
+        }
         return;
     }
 
     mensagens.forEach(msg => {
+        if (mensagensRenderizadas.has(msg.id)) return;
 
         const div = document.createElement('div');
 
@@ -119,6 +128,7 @@ function renderizarMensagens(mensagens) {
         `;
 
         chatMessages.appendChild(div);
+        mensagensRenderizadas.add(msg.id);
     });
 
     chatMessages.scrollTop = chatMessages.scrollHeight;
