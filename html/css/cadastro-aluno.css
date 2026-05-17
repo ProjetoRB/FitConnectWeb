@@ -1,26 +1,97 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: white;
+
+  background:
+    linear-gradient(
+      105deg,
+      rgba(15, 23, 42, 0.95) 0%,
+      rgba(15, 23, 42, 0.80) 45%,
+      rgba(15, 23, 42, 0.40) 100%
+    ),
+    url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1920&q=80') center/cover no-repeat fixed;
+}
+
+header {
+  width: 100%;
+  padding: 10px 50px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  z-index: 10;
+
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: 700;
+  color: #22c55e;
+}
+
+nav {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  color: #22c55e;
+  opacity: 1;
+}
+
+/* =========================
+   PAGE
+========================= */
+
 .page {
   width: 100%;
   min-height: 100vh;
-  background: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 120px 20px;
 }
 
+/* =========================
+   CONTAINER
+========================= */
+
 .container {
   background: #fff;
   border-radius: 30px;
   box-shadow:
-    0 14px 28px rgba(0,0,0,0.25),
-    0 10px 10px rgba(0,0,0,0.22);
+    0 14px 28px rgba(0, 0, 0, 0.4),
+    0 10px 10px rgba(0, 0, 0, 0.3);
 
   position: relative;
 
   width: 950px;
   max-width: 100%;
 
-  min-height: 650px;
+  min-height: 700px;
 
   overflow: hidden;
 }
@@ -83,21 +154,26 @@ form {
 
 .link-profissional {
   margin-top: 15px;
-
   font-size: 14px;
-
   color: #1e293b;
-
-
   font-weight: 600;
-
   text-decoration: none;
-
   transition: 0.3s;
 }
 
 .link-profissional:hover {
-  color: #144f58;
+  color: #22c55e;
+  transform: scale(1.03);
+}
+
+.esqueceuSenha {
+  color: #1e293b;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.esqueceuSenha:hover {
+  color: #22c55e;
   transform: scale(1.03);
 }
 
@@ -144,7 +220,7 @@ h1 {
   position: absolute;
   right: 15px;
   top: 20px;
-  color: #333;
+  color: #555;
   cursor: pointer;
 }
 
@@ -163,12 +239,23 @@ select {
 
   outline: none;
 
-
   font-size: 14px;
+
+  transition: 0.3s;
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid #1e293b;
 }
 
 select {
   cursor: pointer;
+  color: #111827
+}
+
+select option {
+  color: #111827;
 }
 
 /* =========================
@@ -187,10 +274,9 @@ select {
 
 button {
   border-radius: 20px;
-  border: 1px solid #1e293b;
+  border: 1px solid #22c55e;
 
-
-  background-color: #1e293b;
+  background-color: #22c55e;
 
   color: #ffffff;
 
@@ -210,6 +296,8 @@ button {
 }
 
 button:hover {
+  background-color: #22c55e;
+  border-color: #22c55e;
   transform: scale(1.05);
 }
 
@@ -218,15 +306,25 @@ button.ghost {
   border-color: #ffffff;
 }
 
+button.ghost:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: #ffffff;
+}
+
 /* =========================
    LINKS
 ========================= */
 
 a {
-  color: #333;
+  color: #555;
   font-size: 14px;
   text-decoration: none;
   margin: 15px 0;
+  transition: 0.3s;
+}
+
+a:hover {
+  color: #22c55e;
 }
 
 /* =========================
@@ -254,8 +352,7 @@ a {
 }
 
 .overlay {
-  background: linear-gradient(to right, #1e293b
-, #144f58);
+  background: linear-gradient(to right, #1e293b, #144f58);
 
   color: #ffffff;
 
@@ -303,15 +400,13 @@ a {
 }
 
 .overlay-left {
-  transform: translateX(-20%);
+  left: 0;
+  transform: translateX(0);
 }
 
 .overlay-right {
   right: 0;
-}
-
-.overlay-panel {
-  overflow: hidden;
+  transform: translateX(0);
 }
 
 .overlay-panel h1,
@@ -320,16 +415,6 @@ a {
   width: 100%;
   text-align: center;
   word-break: normal;
-}
-
-.overlay-left {
-  left: 0;
-  transform: translateX(0);
-}
-
-.overlay-right {
-  right: 0;
-  transform: translateX(0);
 }
 
 .container.right-panel-active .overlay-left {
@@ -345,6 +430,10 @@ a {
 ========================= */
 
 @media (max-width: 768px) {
+
+  header {
+    padding: 20px;
+  }
 
   .container {
     width: 95%;
@@ -382,118 +471,5 @@ a {
   .two-inputs {
     flex-direction: column;
   }
-}
 
-
-
-.page {
-  width: 100%;
-  min-height: 100vh;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  padding: 120px 20px;
-}
-
-.card {
-  width: 100%;
-  max-width: 650px;
-
-  background: #1e293b;
-
-  padding: 45px;
-
-  border-radius: 30px;
-
-  box-shadow:
-    0 14px 28px rgba(0,0,0,0.25),
-    0 10px 10px rgba(0,0,0,0.22);
-}
-
-.card h2 {
-  text-align: center;
-
-  color: #ffffff;
-
-  font-size: 48px;
-
-  margin-bottom: 35px;
-}
-
-form {
-  background: #f5f5f5;
-
-  border-radius: 20px;
-
-  padding: 40px;
-
-  display: flex;
-  flex-direction: column;
-
-  gap: 18px;
-}
-
-label {
-  font-size: 14px;
-
-  color: #111827;
-
-  font-weight: 600;
-
-  margin-bottom: -8px;
-}
-
-input,
-select {
-  width: 100%;
-
-  height: 55px;
-
-  border: none;
-
-  border-radius: 10px;
-
-  padding: 0 18px;
-
-  background: #e7e7e7;
-
-  font-size: 15px;
-
-  outline: none;
-
-  transition: 0.3s;
-}
-
-input:focus,
-select:focus {
-  outline: 2px solid #1e293b;
-
-}
-
-/* RESPONSIVO */
-
-@media (max-width: 768px) {
-
-  .card {
-    padding: 25px;
-  }
-
-  .card h2 {
-    font-size: 34px;
-  }
-
-  form {
-    padding: 25px;
-  }
-
-  input,
-  select {
-    height: 50px;
-  }
-
-  button {
-    width: 100%;
-  }
 }

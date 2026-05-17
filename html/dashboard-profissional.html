@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FitConnect - Meus Alunos</title>
   <link rel="stylesheet" href="css/dashboard-profissional.css">
+  <link rel="stylesheet" href="css/dashboard-aluno.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -16,13 +18,25 @@
       <h1 class="logo">FitConnect</h1>
       <nav>
         <a href="#" class="active" id="navAlunos">
-          👥 Meus Alunos
+          <i class="fas fa-user-friends"></i> Meus Alunos
+        </a>
+        <a href="/html/minha-conta-profissional.html">
+          <i class="fas fa-user"></i> Minha conta
+        </a>
+        <a href="contato.html">
+          <i class="fas fa-envelope"></i> Contato
+        </a>
+        <a href="servicos.html">
+          <i class="fas fa-dumbbell"></i> Serviços
         </a>
         <a href="#" id="navAgenda">
-          📅 Minha Agenda
+          <i class="fas fa-calendar"></i> Minha Agenda
         </a>
         <a href="#">
-          ⚙️ Configurações
+          <i class="fas fa-cog"></i> Configurações
+        </a>
+        <a href="#" id="logoutBtn">
+          <i class="fas fa-sign-out-alt"></i> Sair
         </a>
       </nav>
     </div>
@@ -40,10 +54,6 @@
       <div>
         <h2 id="profissionalNome">Olá, Profissional 👨‍🏫</h2>
         <p>Gerencie seus alunos e horários</p>
-      </div>
-      <div class="menu">
-        <a href="#">Perfil</a>
-        <a href="#" id="logoutBtn">Sair</a>
       </div>
     </header>
 

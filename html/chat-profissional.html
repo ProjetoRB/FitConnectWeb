@@ -12,23 +12,19 @@
   <header>
     <div class="logo">FitConnect</div>
     <nav>
-      <a href="dashboard-profissional.html"><i class="fas fa-home"></i> Início</a>
-      <a href="agenda-profissional.html"><i class="fas fa-calendar"></i> Agenda</a>
-      <a href="#" onclick="history.back()"><i class="fas fa-arrow-left"></i> Voltar</a>
+      <a href="#" onclick="history.back()" class="btn-voltar"><i class="fas fa-arrow-left"></i> Voltar</a>
     </nav>
   </header>
 
   <main class="chat-container">
-    <div class="chat-card card">
+    <div class="chat-card">
       <div class="chat-header">
-        <i class="fas fa-comments"></i> Chat com <span id="alunoChatNome"></span>
+        <span><i class="fas fa-comments"></i> Chat com <span id="alunoChatNome"></span></span>
         <a href="dashboard-profissional.html" class="close-chat"><i class="fas fa-times"></i></a>
       </div>
-
       <div class="chat-messages" id="chatMessages">
         <div class="mensagem-sistema">Conectado ao chat. Responda sua mensagem abaixo.</div>
       </div>
-
       <div class="chat-input-area">
         <textarea id="mensagemTexto" rows="2" placeholder="Escreva sua resposta..."></textarea>
         <button id="btnEnviarMsg"><i class="fas fa-paper-plane"></i> Enviar</button>

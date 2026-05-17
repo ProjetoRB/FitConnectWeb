@@ -36,20 +36,34 @@
             <input type="password" id="loginSenha" placeholder="Senha" required>
             <i class="bi bi-eye" id="btn-senha"></i>
           </div>
-
-          <a href="#">Esqueceu a senha?</a>
           <button type="submit">Entrar</button>
+          <a href="/html/esqueceu-senha.html" class="esqueceuSenha">Esqueceu a senha?</a>
         </form>
       </div>
 
       <!-- CADASTRO ALUNO -->
       <div class="form-container sign-up-container">
         <form id="formAluno">
-          <h1>Criar Conta</h1>
+          <h1>Cadastro Aluno</h1>
 
           <div class="input-box">
             <input type="text" id="nomeCompleto" placeholder="Nome completo" required>
             <i class="bi bi-person"></i>
+          </div>
+
+          <div class="input-box">
+            <input type="text" id="dataNascimentoAluno" placeholder="DD/MM/AAAA" maxlength="10" required>
+            <i class="bi bi-calendar"></i>
+            <small class="erro-data"></small>
+          </div>
+
+          <div class="input-box">
+            <select id="sexo" required>
+              <option value="">Sexo</option>
+              <option>Masculino</option>
+              <option>Feminino</option>
+            </select>
+            <i class="bi bi-gender-ambiguous"></i>
           </div>
 
           <div class="input-box">
@@ -63,15 +77,9 @@
           </div>
 
           <div class="two-inputs">
-            <input type="text" id="peso" placeholder="Peso" required>
-            <input type="text" id="altura" placeholder="Altura" required>
+            <input type="text" id="peso" placeholder="Peso (kg)" required>
+            <input type="text" id="altura" placeholder="Altura (m)" required>
           </div>
-
-          <select id="sexo" required>
-            <option value="">Sexo</option>
-            <option>Masculino</option>
-            <option>Feminino</option>
-          </select>
 
           <div class="input-box">
             <input type="password" id="senha" placeholder="Senha" required>
@@ -80,8 +88,7 @@
 
           <button type="submit">Cadastrar</button>
 
-                  <a class="link-profissional" href="cadastro-profissional.html">Sou profissional
-                  </a>
+          <a class="link-profissional" href="cadastro-profissional.html">Sou profissional</a>
 
         </form>
       </div>

@@ -12,16 +12,14 @@
   <header>
     <div class="logo">FitConnect</div>
     <nav>
-      <a href="dashboard-aluno.html"><i class="fas fa-home"></i> Início</a>
-      <a href="minha-conta.html"><i class="fas fa-user"></i> Minha conta</a>
-      <a href="contato.html"><i class="fas fa-envelope"></i> Contato</a>
+      <a href="#" onclick="history.back()" class="btn-voltar"><i class="fas fa-arrow-left"></i> Voltar</a>
     </nav>
   </header>
 
   <main class="chat-container">
-    <div class="chat-card card">
+    <div class="chat-card">
       <div class="chat-header">
-        <i class="fas fa-comments"></i> Chat com <span id="profChatNome"></span>
+        <span><i class="fas fa-comments"></i> Chat com <span id="profChatNome"></span></span>
         <a href="dashboard-aluno.html" class="close-chat"><i class="fas fa-times"></i></a>
       </div>
       <div class="chat-messages" id="chatMessages">

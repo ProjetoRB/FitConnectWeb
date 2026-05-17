@@ -9,9 +9,7 @@ body{
   color:white;
 
   background:
-    linear-gradient(rgba(0,0,0,0.50), rgba(0,0,0,0.30)),
-    url('../assets/logoFitConnect.png'),
-    url('../assets/FundoFitConnect.PNG');
+    linear-gradient(rgba(0,0,0,0.50), rgba(0,0,0,0.30));
 
   background-size:
     cover,
@@ -197,4 +195,15 @@ select{
     flex-direction:column;
   }
 
+}
+
+.erro {
+    border: 2px solid #ff4d4d !important;
+}
+
+.erro-data {
+    color: #ff4d4d;
+    font-size: 12px;
+    margin-top: 4px;
+    display: block;
 }

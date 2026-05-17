@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     /*=============================================================================================
-    MOSTRAR / OCULTAR SENHA CADASTRO
+    MOSTRAR / OCULTAR SENHA CADASTRO DO ALUNO
     =============================================================================================*/
     const btnSenhaCadastro = document.getElementById('btn-senha-cadastro');
     const inputSenhaCadastro = document.getElementById('senha');
@@ -35,6 +35,25 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 inputSenhaCadastro.type = 'password';
                 btnSenhaCadastro.classList.replace('bi-eye-slash', 'bi-eye');
+            }
+        });
+    }
+
+    /*=============================================================================================
+    MOSTRAR / OCULTAR SENHA CADASTRO DO PROFISSIONAL
+    =============================================================================================*/
+
+    const btnSenhaCadastroProfissional = document.getElementById('btn-senha-prof');
+    const inputSenhaCadastroProfissional = document.getElementById('senhaProf');
+
+    if (btnSenhaCadastroProfissional && inputSenhaCadastroProfissional) {
+        btnSenhaCadastroProfissional.addEventListener('click', () => {
+            if (inputSenhaCadastroProfissional.type === 'password') {
+                inputSenhaCadastroProfissional.type = 'text';
+                btnSenhaCadastroProfissional.classList.replace('bi-eye', 'bi-eye-slash');
+            } else {
+                inputSenhaCadastroProfissional.type = 'password';
+                btnSenhaCadastroProfissional.classList.replace('bi-eye-slash', 'bi-eye');
             }
         });
     }
@@ -180,6 +199,75 @@ document.addEventListener('DOMContentLoaded', function() {
     const API_BASE = 'http://localhost:8080';
 
     /*=============================================================================================
+    MÁSCARA DE DATA DO CADASTRO ALUNO E DO PROFISSIONAL
+    =============================================================================================*/
+    function aplicarMascaraData(idInput) {
+
+        const inputData = document.getElementById(idInput);
+
+        if (!inputData) return;
+
+        const mensagemErro = inputData.parentElement.querySelector('.erro-data');
+
+        inputData.addEventListener('input', function () {
+
+            let valor = inputData.value.replace(/\D/g, '');
+
+            if (valor.length > 2) {
+                valor = valor.substring(0, 2) + '/' + valor.substring(2);
+            }
+
+            if (valor.length > 5) {
+                valor = valor.substring(0, 5) + '/' + valor.substring(5, 9);
+            }
+
+            inputData.value = valor.substring(0, 10);
+
+            inputData.classList.remove('erro');
+            mensagemErro.textContent = '';
+        });
+
+        inputData.addEventListener('blur', function () {
+
+            if (
+                inputData.value &&
+                !validarData(inputData.value)
+            ) {
+                inputData.classList.add('erro');
+                mensagemErro.textContent = 'Data inválida';
+            }
+        });
+    }
+
+    function validarData(data) {
+
+        const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+
+        if (!regex.test(data)) return false;
+
+        const [dia, mes, ano] = data.split('/').map(Number);
+
+        if (ano < 1900 || ano > new Date().getFullYear()) {
+            return false;
+        }
+
+        if (mes < 1 || mes > 12) {
+            return false;
+        }
+
+        const dataObj = new Date(ano, mes - 1, dia);
+
+        return (
+            dataObj.getFullYear() === ano &&
+            dataObj.getMonth() === mes - 1 &&
+            dataObj.getDate() === dia
+        );
+    }
+
+    aplicarMascaraData('dataNascimentoAluno');
+    aplicarMascaraData('dataNascimentoProfissional');
+
+    /*=============================================================================================
     CADASTRO DE ALUNO
     =============================================================================================*/
     const formAluno = document.getElementById('formAluno');
@@ -192,6 +280,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (!validarCPF(cpf)) {
                 alert('CPF inválido. Por favor, digite um CPF válido.');
+                return;
+            }
+
+            const dataInput = document.getElementById('dataNascimentoAluno');
+
+            if (!validarData(dataInput.value)) {
+                dataInput.classList.add('erro');
+                dataInput.parentElement
+                    .querySelector('.erro-data')
+                    .textContent = 'Data inválida';
+
                 return;
             }
 
