@@ -106,6 +106,7 @@ function renderizarMensagens(mensagens) {
     }
 
     mensagens.forEach(msg => {
+
         const div = document.createElement('div');
 
         div.className = msg.remetenteTipo === 'Profissional'
