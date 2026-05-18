@@ -360,6 +360,31 @@ nav .active {
   color: #111827;
 }
 
+.agendamento-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.btn-cancelar-agendamento {
+  margin-left: auto;
+  background: #dc2626;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.3s;
+  color: #e5e7eb;
+  right: auto;
+}
+
+.btn-cancelar-agendamento:hover {
+  background: #dc2626;
+  transform: scale(1.05);
+}
+
 .btn-confirmar-sair {
   background: #ef4444;
   color: #ffffff;

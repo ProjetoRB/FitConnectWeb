@@ -14,6 +14,7 @@ const params = new URLSearchParams(window.location.search);
 
 const profissionalId = params.get('profissionalId');
 const profissionalNome = params.get('profissionalNome');
+const profissionalArea = params.get('profissionalArea')
 
 const profChatNome = document.getElementById('profChatNome');
 const chatMessages = document.getElementById('chatMessages');
@@ -28,7 +29,7 @@ if (!profissionalId) {
 }
 
 if (profChatNome) {
-    profChatNome.textContent = profissionalNome || 'Profissional';
+    profChatNome.textContent = profissionalNome + ` • ${profissionalArea}` || 'Profissional';
 }
 
 /*=============================================================================================
@@ -96,6 +97,10 @@ let mensagensRenderizadas = new Set();
 function renderizarMensagens(mensagens) {
     if (!chatMessages) return;
 
+    const distanciaDoFinal =
+    chatMessages.scrollHeight - chatMessages.scrollTop - chatMessages.clientHeight;
+    const deveRolarParaBaixo = distanciaDoFinal < 80;
+
     const mensagemSistema = chatMessages.querySelector('.mensagem-sistema');
 
     if (mensagemSistema && mensagens.length > 0) {
@@ -131,7 +136,9 @@ function renderizarMensagens(mensagens) {
         mensagensRenderizadas.add(msg.id);
     });
 
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+    if (deveRolarParaBaixo) {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
 }
 
 /*=============================================================================================

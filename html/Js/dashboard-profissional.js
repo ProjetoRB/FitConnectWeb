@@ -232,7 +232,7 @@ function renderizarAlunos(agendamentos) {
         <span>📌 ${formatarData(ag.data, ag.hora)}</span>
 
         <button onclick="abrirModalCancelamento(${ag.id})" class="btn-cancelar-agendamento">
-          Cancelar
+          Cancelar consulta
         </button>
       </div>
     `).join("");

@@ -60,7 +60,7 @@ async function carregarProfissionais(filtro = 'todos') {
                 ${
             profissionaisComConsulta.has(prof.id)
                              ? `
-            <button class="conversar-btn" data-id="${prof.id}" data-nome="${prof.nomeCompleto}">
+            <button class="conversar-btn" data-id="${prof.id}" data-nome="${prof.nomeCompleto}" data-area="${prof.areaProfissional}">
                 💬 Conversar
             </button>
                 `
@@ -77,18 +77,19 @@ async function carregarProfissionais(filtro = 'todos') {
             </div>
         `).join('');
 
-/*=============================================================================================
-ADICIONADO
-=============================================================================================*/
-       document.querySelectorAll('.conversar-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const profissionalId = btn.dataset.id;
-        const profissionalNome = btn.dataset.nome;
+        /*=============================================================================================
+        ADICIONADO
+        =============================================================================================*/
+        document.querySelectorAll('.conversar-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const profissionalId = btn.dataset.id;
+                const profissionalNome = btn.dataset.nome;
+                const profissionalArea = btn.dataset.area;
 
-        window.location.href =
-            `chat.html?profissionalId=${profissionalId}&profissionalNome=${encodeURIComponent(profissionalNome)}`;
-    });
-});
+                window.location.href =
+                    `chat.html?profissionalId=${profissionalId}&profissionalNome=${encodeURIComponent(profissionalNome)}&profissionalArea=${encodeURIComponent(profissionalArea)}`;
+            });
+        });
 
         document.querySelectorAll('.agendar-btn').forEach(btn => {
             btn.addEventListener('click', () => {
