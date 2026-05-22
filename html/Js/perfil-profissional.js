@@ -41,6 +41,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // Guarda os valores originais para poder cancelar a edição
     let dadosOriginais = {};
 
+    if (campos.nascimento) {
+        aplicarMascaraData(campos.nascimento);
+    }
+
     /*=============================================================================================
     MAPA: área profissional → label do documento
     =============================================================================================*/
@@ -87,15 +91,70 @@ document.addEventListener('DOMContentLoaded', function () {
         return s.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
     }
 
+    function aplicarMascaraData(input) {
+
+        input.addEventListener('input', function () {
+
+            let valor = input.value.replace(/\D/g, '');
+
+            if (valor.length > 2) {
+                valor = valor.substring(0, 2) + '/' + valor.substring(2);
+            }
+
+            if (valor.length > 5) {
+                valor = valor.substring(0, 5) + '/' + valor.substring(5, 9);
+            }
+
+            input.value = valor.substring(0, 10);
+
+            input.classList.remove('erro');
+        });
+
+        input.addEventListener('blur', function () {
+
+            if (
+                input.value &&
+                !validarData(input.value)
+            ) {
+                input.classList.add('erro');
+            }
+        });
+    }
+
+    function validarData(data) {
+
+        const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+
+        if (!regex.test(data)) return false;
+
+        const [dia, mes, ano] = data.split('/').map(Number);
+
+        if (ano < 1900 || ano > new Date().getFullYear()) {
+            return false;
+        }
+
+        if (mes < 1 || mes > 12) {
+            return false;
+        }
+
+        const dataObj = new Date(ano, mes - 1, dia);
+
+        return (
+            dataObj.getFullYear() === ano &&
+            dataObj.getMonth() === mes - 1 &&
+            dataObj.getDate() === dia
+        );
+    }
+
     /*=============================================================================================
     PREENCHER OS CAMPOS COM OS DADOS RECEBIDOS DA API
     =============================================================================================*/
     function preencherFormulario(dados) {
-        if (campos.nome)       campos.nome.value       = dados.nomeCompleto   || '';
+        if (campos.nome) campos.nome.value = dados.nomeCompleto || '';
         if (campos.nascimento) campos.nascimento.value = formatarDataParaExibicao(dados.dataNascimento);
-        if (campos.email)      campos.email.value      = dados.email          || '';
-        if (campos.cpf)        campos.cpf.value        = mascararCPF(dados.cpf || '');
-        if (campos.documento)  campos.documento.value  = dados.documentoProfissional || '';
+        if (campos.email) campos.email.value = dados.email || '';
+        if (campos.cpf) campos.cpf.value = mascararCPF(dados.cpf || '');
+        if (campos.documento) campos.documento.value = dados.documentoProfissional || '';
 
         if (campos.sexo && dados.sexo) {
             campos.sexo.value = dados.sexo;
@@ -108,13 +167,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Salva cópia para restaurar ao cancelar
         dadosOriginais = {
-            nomeCompleto:           dados.nomeCompleto            || '',
-            dataNascimento:         formatarDataParaExibicao(dados.dataNascimento),
-            sexo:                   dados.sexo                    || '',
-            email:                  dados.email                   || '',
-            cpf:                    mascararCPF(dados.cpf         || ''),
-            areaProfissional:       dados.areaProfissional        || '',
-            documentoProfissional:  dados.documentoProfissional   || '',
+            nomeCompleto: campos.nome?.value || '',
+            dataNascimento: campos.nascimento?.value || '',
+            sexo: campos.sexo?.value || '',
+            email: campos.email?.value || '',
+            cpf: campos.cpf?.value || '',
+            areaProfissional: campos.area?.value || '',
+            documentoProfissional: campos.documento?.value || '',
         };
     }
 
@@ -175,14 +234,13 @@ document.addEventListener('DOMContentLoaded', function () {
     RESTAURAR VALORES ORIGINAIS (ao cancelar)
     =============================================================================================*/
     function restaurarDados() {
-        if (campos.nome)       campos.nome.value       = dadosOriginais.nomeCompleto;
+        if (campos.nome) campos.nome.value = dadosOriginais.nomeCompleto;
         if (campos.nascimento) campos.nascimento.value = dadosOriginais.dataNascimento;
-        if (campos.email)      campos.email.value      = dadosOriginais.email;
-        if (campos.cpf)        campos.cpf.value        = dadosOriginais.cpf;
-        if (campos.area)       campos.area.value       = dadosOriginais.areaProfissional;
-        if (campos.documento)  campos.documento.value  = dadosOriginais.documentoProfissional;
-
-        if (campos.sexo)       campos.sexo.value       = dadosOriginais.sexo;
+        if (campos.email) campos.email.value = dadosOriginais.email;
+        if (campos.cpf) campos.cpf.value = dadosOriginais.cpf;
+        if (campos.area) campos.area.value = dadosOriginais.areaProfissional;
+        if (campos.documento) campos.documento.value = dadosOriginais.documentoProfissional;
+        if (campos.sexo) campos.sexo.value = dadosOriginais.sexo;
 
         atualizarLabelDocumento(dadosOriginais.areaProfissional);
     }
@@ -221,6 +279,12 @@ document.addEventListener('DOMContentLoaded', function () {
             e.preventDefault();
 
             const novaSenha = campos.senha?.value?.trim();
+
+            if (campos.nascimento?.value && !validarData(campos.nascimento.value)) {
+                campos.nascimento.classList.add('erro');
+                alert('Data de nascimento inválida.');
+                return;
+            }
 
             const dados = {
                 nomeCompleto:          campos.nome?.value      || undefined,

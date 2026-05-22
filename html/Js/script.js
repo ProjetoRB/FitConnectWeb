@@ -264,6 +264,16 @@ document.addEventListener('DOMContentLoaded', function() {
         );
     }
 
+    function formatarDataParaAPI(dataBR) {
+        if (!dataBR) return null;
+
+        const [dia, mes, ano] = dataBR.split('/');
+
+        if (!dia || !mes || !ano) return null;
+
+        return `${ano}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`;
+    }
+
     aplicarMascaraData('dataNascimentoAluno');
     aplicarMascaraData('dataNascimentoProfissional');
 
@@ -296,6 +306,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const dados = {
                 nomeCompleto: document.getElementById('nomeCompleto')?.value,
+                dataNascimento: formatarDataParaAPI(dataInput.value),
                 email: document.getElementById('email')?.value,
                 cpf: cpf,
                 peso: document.getElementById('peso')?.value,
@@ -349,10 +360,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
+            const dataInputProf = document.getElementById('dataNascimentoProfissional');
+
+            if (!validarData(dataInputProf.value)) {
+                dataInputProf.classList.add('erro');
+                dataInputProf.parentElement
+                    .querySelector('.erro-data')
+                    .textContent = 'Data inválida';
+
+                return;
+            }
+
             const dados = {
                 nomeCompleto: document.getElementById('nomeCompletoProf')?.value,
+                dataNascimento: formatarDataParaAPI(dataInputProf.value),
                 email: document.getElementById('emailProf')?.value,
                 cpf: cpf,
+                sexo: document.getElementById('sexoProf')?.value,
                 areaProfissional: document.getElementById('areaProfissional')?.value,
                 documentoProfissional: document.getElementById('documentoProfissional')?.value,
                 senha: document.getElementById('senhaProf')?.value
