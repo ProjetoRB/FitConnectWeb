@@ -1,30 +1,28 @@
-# FitConnect Mobile
+# FitConnect Web
 
-O FitConnect Mobile é a aplicação Android do sistema FitConnect, desenvolvida para permitir que os usuários acompanhem seus treinos e informações físicas diretamente pelo smartphone.
+O FitConnect Web é a interface web do sistema FitConnect, desenvolvida para disponibilizar informações e funcionalidades do sistema por meio do navegador.
 
 ## Funcionalidades
 
-* Visualização de treinos
-* Acompanhamento físico
+* Visualização de dados dos usuários
+* Consulta de informações de treinos
+* Interface responsiva
 * Integração com a API do sistema
-* Atualização de informações do usuário
-* Interface intuitiva para dispositivos Android
 
 ## Tecnologias Utilizadas
 
-* Java
-* Android Studio
-* MVVM
-* Retrofit
+* HTML
+* CSS
+* JavaScript
 * API REST
-
-## Arquitetura
-
-O projeto utiliza o padrão arquitetural MVVM (Model-View-ViewModel), promovendo maior organização do código e separação de responsabilidades.
 
 ## Objetivo
 
-Facilitar o acesso às informações de treino e acompanhamento físico por meio de dispositivos móveis.
+Fornecer uma interface web simples e acessível para o gerenciamento e acompanhamento das informações do sistema.
+
+## Integração
+
+A aplicação consome os dados da API do FitConnect para exibir informações atualizadas aos usuários.
 
 ## Desenvolvedores
 
